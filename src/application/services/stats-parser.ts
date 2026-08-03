@@ -1,7 +1,6 @@
 import { Injectable } from '@nestjs/common';
 import * as zlib from 'zlib';
 
-// MP DDL stat names (index → name)
 const DDL_STAT_NAMES: Record<number, string> = {
   0: 'accuracy', 5: 'assist', 12: 'assists', 18: 'captures', 19: 'career_score',
   23: 'codpoints', 33: 'cur_win_streak', 34: 'currencyspent', 35: 'deaths',
@@ -15,7 +14,6 @@ const DDL_STAT_NAMES: Record<number, string> = {
   379: 'wins', 382: 'wlratio',
 };
 
-// bdStats ID → DDL index
 const BDSTAT_TO_DDL: Record<number, number> = {
   0x2711: 336, 0x2712: 128, 0x2713: 35, 0x2714: 12, 0x2715: 38,
   0x2716: 325, 0x2717: 39, 0x2718: 333, 0x2719: 18, 0x271a: 57,
@@ -28,31 +26,51 @@ const ZM_STAT_IDS: Record<number, string> = {
   0x14dc: 'kills', 0x138a: 'downs',
 };
 
-// ZM leaderboard board → stat name
 const ZM_BOARD_TO_STAT: Record<number, string> = {
-  20000: 'bullets_fired', 20001: 'bullets_hit', 20002: 'gibs',
-  20003: 'headshots', 20004: 'revives', 20005: 'downs',
-  20006: 'doors_opened', 20007: 'perks_drank', 20008: 'grenade_kills',
-  20009: 'kills', 20010: 'distance_traveled', 20011: 'time_played_total',
-  20012: 'deaths',
+  20009: 'kills',
+  20000: 'bullets_fired',
+  20005: 'downs',
+  20012: 'revives',
+  20007: 'grenade_kills',
+  20008: 'headshots',
+  20002: 'deaths',
+  20006: 'gibs',
+  20010: 'perks_drank',
+  20004: 'doors_opened',
+  20001: 'bullets_hit',
+  20003: 'distance_traveled',
 };
 
-// ZM PlayerStatsList fields: (name, type, offset)
-const ZM_PSL_FIELDS: [string, 'u32' | 'u64', number][] = [
-  ['kills', 'u32', 0x00],
-  ['downs', 'u32', 0x04],
-  ['revives', 'u32', 0x08],
-  ['headshots', 'u32', 0x0c],
-  ['gibs', 'u32', 0x10],
-  ['bullets_fired', 'u64', 0x14],
-  ['bullets_hit', 'u64', 0x1c],
-  ['perks_drank', 'u32', 0x24],
-  ['doors_opened', 'u32', 0x28],
+const ZM_PSL_OFFSET = 0xd0;
+const ZM_PSL_FIELDS: [string, 'u32', number][] = [
+  ['unknown_0', 'u32', 0x00],     // 45 — unknown
+  ['kills', 'u32', 0x04],
+  ['downs', 'u32', 0x08],
+  ['revives', 'u32', 0x0c],
+  ['perks_drank', 'u32', 0x10],
+  ['gibs', 'u32', 0x14],
+  ['unknown_6', 'u32', 0x18],      // 104 — unknown
+  ['unknown_7', 'u32', 0x1c],      // unknown
+  ['unknown_8', 'u32', 0x20],      // 35 — unknown
+  ['unknown_9', 'u32', 0x24],      // 26 — unknown
+  ['unknown_10', 'u32', 0x28],    // 20 — unknown
   ['grenade_kills', 'u32', 0x2c],
-  ['distance_traveled', 'u64', 0x30],
-  ['time_played_total', 'u32', 0x38],
+  ['doors_opened', 'u32', 0x30],
+  ['distance_traveled', 'u32', 0x34],
+  ['bullets_fired', 'u32', 0x38],
+  ['bullets_hit', 'u32', 0x3c],
+  ['deaths', 'u32', 0x40],
+  ['unknown_16', 'u32', 0x44],   // 44 — unknown
 ];
 
+// DDL section: headshots stored at offset 0x4c (DDL base=0x3c, +0x10)
+const ZM_DDL_OFFSET = 0x3c;
+const ZM_DDL_HEADSHOTS_OFFSET = 0x10;
+
+// RankData: uint8 fields at PSL + 0x48 — all unknown
+const ZM_RANK_FIELDS: [string, number][] = [];
+
+// Map stats: 6 maps × 14 bytes (u16 + 3×u32) starting at PSL + 0x4c
 const ZM_MAP_NAMES = ['transit', 'nuke', 'highrise', 'prison', 'buried', 'tomb'];
 const ZM_MAP_FIELDS = ['highest_round', 'score', 'time', 'games_played'];
 
@@ -69,8 +87,9 @@ export class StatsParser {
       const ddlStartBit = 0x30 * 8;
       const statsStart = ddlStartBit + 0x40;
 
-      for (const [idx, name] of Object.entries(DDL_STAT_NAMES)) {
-        const bitOff = statsStart + Number(idx) * 48;
+      for (const [idxStr, name] of Object.entries(DDL_STAT_NAMES)) {
+        const idx = Number(idxStr);
+        const bitOff = statsStart + idx * 48;
         if (bitOff + 32 > dec.length * 8) break;
         const val = this.readBits(dec, bitOff, 32);
         result[name] = val >= 0x80000000 ? val - 0x100000000 : val;
@@ -89,26 +108,50 @@ export class StatsParser {
     try {
       const dec = zlib.inflateRawSync(raw);
       const result: Record<string, number> = {};
-      const pslStart = 0x3c;
+      const base = ZM_PSL_OFFSET;
 
+      // Layer A: PlayerStatsList (PSL at 0xd0, all u32)
       for (const [name, type, offset] of ZM_PSL_FIELDS) {
-        const pos = pslStart + offset;
+        const pos = base + offset;
         if (type === 'u32') {
-          if (pos + 4 > dec.length) break;
+          if (pos + 4 > dec.length) { result[name] = 0; continue; }
           result[name] = dec.readUInt32LE(pos);
         } else {
-          if (pos + 8 > dec.length) break;
+          if (pos + 8 > dec.length) { result[name] = 0; continue; }
           result[name] = Number(dec.readBigUInt64LE(pos));
         }
       }
 
-      // RankData at offset 0x3C + 0x3C = 0x78 (4 uint8 fields)
-      const rankStart = 0x78;
-      if (rankStart + 4 <= dec.length) {
-        result['rank'] = dec[rankStart];
-        result['tally_marks'] = dec[rankStart + 1];
-        result['blue_eyes'] = dec[rankStart + 2];
-        result['plevel'] = dec[rankStart + 3];
+      // headshots comes from DDL section (0x4c), not PSL
+      const hsPos = ZM_DDL_OFFSET + ZM_DDL_HEADSHOTS_OFFSET;
+      result['headshots'] = hsPos + 4 <= dec.length ? dec.readUInt32LE(hsPos) : 0;
+
+      // Bank points: DDL bit-packed at bit offset 0xCB5B, stored as value/1000
+      result['bank_points'] = this.readBits(dec, 0xCB5B, 32) * 1000;
+
+      // Layer B: RankData (uint8 fields at PSL + 0x48)
+      for (const [name, offset] of ZM_RANK_FIELDS) {
+        const pos = base + offset;
+        result[name] = pos < dec.length ? dec[pos] : 0;
+      }
+
+      // Layer C: MapStats (6 maps × 14 bytes, starting at PSL + 0x4c)
+      const mapBase = base + 0x4c;
+      for (let m = 0; m < 6; m++) {
+        for (let fi = 0; fi < ZM_MAP_FIELDS.length; fi++) {
+          const fname = ZM_MAP_FIELDS[fi];
+          if (fname === 'highest_round') {
+            const off = mapBase + m * 14;
+            if (off + 2 <= dec.length) {
+              result[`${ZM_MAP_NAMES[m]}_${fname}`] = dec.readUInt16LE(off);
+            }
+          } else {
+            const off = mapBase + m * 14 + 2 + (fi - 1) * 4;
+            if (off + 4 <= dec.length) {
+              result[`${ZM_MAP_NAMES[m]}_${fname}`] = dec.readUInt32LE(off);
+            }
+          }
+        }
       }
 
       return result;
@@ -133,6 +176,34 @@ export class StatsParser {
   getZmStatByBoardId(stats: Record<string, number>, boardId: number): number {
     const name = ZM_BOARD_TO_STAT[boardId];
     return name ? stats[name] || 0 : 0;
+  }
+
+  /**
+   * Check if a stat ID is a ZM stat.
+   */
+  isZmStatId(statId: number): boolean {
+    return statId in ZM_STAT_IDS;
+  }
+
+  /**
+   * Get ZM stat name by stat ID.
+   */
+  getZmStatName(statId: number): string | undefined {
+    return ZM_STAT_IDS[statId];
+  }
+
+  /**
+   * Check if a board ID is a ZM board.
+   */
+  isZmBoard(boardId: number): boolean {
+    return boardId >= 20000 && boardId < 30000;
+  }
+
+  /**
+   * Compute level from rankxp.
+   */
+  computeLevel(rankxp: number): number {
+    return rankxp > 0 ? Math.max(1, Math.floor(rankxp / 1000) + 1) : 1;
   }
 
   private readBits(data: Buffer, bitOffset: number, numBits: number): number {

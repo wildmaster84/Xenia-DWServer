@@ -87,10 +87,13 @@ export class MatchmakingHandler {
         privateSlots: 0,
         titleId: conn.player.titleId,
         xnkey: Buffer.from(fields.xnkey),
+        xnaddr: Buffer.from(fields.xnaddr),
         intFields: fields.intFields,
         floatField: fields.floatField,
         intFields2: fields.intFields2,
       });
+
+      this.logger.log(`[CREATE SESSION] xuid=${xuidHex} sid=${sessionIdHex} flags=${fields.flags} intFields=[${fields.intFields.join(',')}] float=${fields.floatField ?? 'none'} intFields2=[${fields.intFields2.join(',')}]`);
 
       w.u64(fields.sessionId);
       conn.sendTaskReply(op, w.toBuffer(), 1);
@@ -113,69 +116,71 @@ export class MatchmakingHandler {
       if (r.remaining > 0 && r.peekTag() === 0x08) skip = r.u32();
       if (r.remaining > 0 && r.peekTag() === 0x08) maxResults = r.u32();
 
-      const searcherXuid = conn.xuid.toString(16).padStart(16, '0');
-      const results = await this.xboxPres.searchSessions(searcherXuid, maxResults);
+      // Parse remaining search filters (i32 fields after mode/skip/max)
+      const searchFilters: number[] = [];
+      while (r.remaining > 0 && r.peekTag() === 0x07) {
+        searchFilters.push(r.i32());
+      }
+      if (searchFilters.length > 0) {
+        this.logger.log(`searchFilters: [${searchFilters.join(',')}]`);
+      }
 
-      this.logger.log(`searchSessions: xuid=${searcherXuid} mode=${mode} max=${maxResults} → ${results.length} sessions`);
+      const searcherXuid = conn.xuid.toString(16).padStart(16, '0');
+      const searcherMac = (conn.player.macAddressStr || '').toLowerCase().replace(/:/g, '');
+      const allResults = await this.xboxPres.searchSessions(searcherXuid, maxResults);
+
+      // Filter out searcher's own sessions by MAC (API doesn't return XUID)
+      const results = allResults.filter((sess) => {
+        const sessMac = (sess.macAddress || '').toLowerCase().replace(/:/g, '');
+        return sessMac !== searcherMac;
+      });
+
+      this.logger.log(`searchSessions: xuid=${searcherXuid} mac=${searcherMac} mode=${mode} max=${maxResults} → ${results.length} sessions (filtered from ${allResults.length})`);
+
+      // Batch-fetch all stored sessions in one query
+      const sidHexes = results.map((sess) => BigInt('0x' + (sess.sessionId || '0')).toString(16).padStart(16, '0'));
+      const storedSessions = await this.sessionRepo.getBySessionIds(sidHexes);
+      const storedMap = new Map<string, any>();
+      for (const s of storedSessions) {
+        if (s.sessionId) storedMap.set(s.sessionId, s);
+      }
 
       for (const sess of results) {
-        // Build 42-byte XNADDR matching the format the game expects:
-        // offset 0:  flags (u32 big-endian, =1)
-        // offset 4:  16 bytes padding (zeros)
-        // offset 20: MAC reversed (6 bytes LE)
-        // offset 26: port (u16 LE)
-        // offset 28: IP reversed (4 bytes LE)
-        // offset 32: IP reversed again (4 bytes LE)
-        // offset 36: 0x3E8 (u32 LE = 1000)
-        // offset 40: 2 bytes padding
-        const xnaddr = Buffer.alloc(42);
-        xnaddr.writeUInt32BE(1, 0); // flags = 1
-
-        // Parse MAC
-        const macStr = sess.macAddress || '';
-        const cleanMac = macStr.replace(/:/g, '');
-        if (cleanMac.length >= 12) {
-          const macBytes = Buffer.from(cleanMac, 'hex');
-          // MAC reversed (LE) at offset 20
-          for (let i = 0; i < 6; i++) {
-            xnaddr[20 + i] = macBytes[5 - i];
-          }
-        }
-
-        // Port at offset 26 (u16 LE)
-        const port = sess.port || 36000;
-        xnaddr.writeUInt16LE(port, 26);
-
-        // Parse IP and reverse at offset 28 and 32
-        const hostIp = sess.hostAddress || '0.0.0.0';
-        const ipParts = hostIp.split('.').map(Number);
-        if (ipParts.length === 4) {
-          // IP reversed (LE) at offset 28
-          xnaddr[28] = ipParts[3];
-          xnaddr[29] = ipParts[2];
-          xnaddr[30] = ipParts[1];
-          xnaddr[31] = ipParts[0];
-          // IP reversed again at offset 32
-          xnaddr[32] = ipParts[3];
-          xnaddr[33] = ipParts[2];
-          xnaddr[34] = ipParts[1];
-          xnaddr[35] = ipParts[0];
-        }
-
-        // 0x3E8 (1000) at offset 36 (u32 LE)
-        xnaddr.writeUInt32LE(0x3e8, 36);
-
         // Session ID
         const sid = BigInt('0x' + (sess.sessionId || '0'));
         const sidHex = sid.toString(16).padStart(16, '0');
 
-        // Look up stored session data for XNKEY + fields
-        let stored: any = null;
-        try {
-          stored = await this.sessionRepo.getBySessionId(sidHex);
-        } catch {}
+        // Look up stored session data for XNADDR, XNKEY + fields
+        const stored = storedMap.get(sidHex) || null;
+
+        // Always rebuild XNADDR from API data — game sends zeros in op=1
+        const xnaddr = Buffer.alloc(42);
+        xnaddr.writeUInt32BE(1, 0);
+        const macStr = sess.macAddress || '';
+        const cleanMac = macStr.replace(/:/g, '');
+        if (cleanMac.length >= 12) {
+          const macBytes = Buffer.from(cleanMac, 'hex');
+          for (let i = 0; i < 6; i++) {
+            xnaddr[20 + i] = macBytes[5 - i];
+          }
+        }
+        const port = sess.port || 36000;
+        xnaddr.writeUInt16LE(port, 26);
+        const hostIp = sess.hostAddress || '0.0.0.0';
+        const ipParts = hostIp.split('.').map(Number);
+        if (ipParts.length === 4) {
+          xnaddr[28] = ipParts[3]; xnaddr[29] = ipParts[2];
+          xnaddr[30] = ipParts[1]; xnaddr[31] = ipParts[0];
+          xnaddr[32] = ipParts[3]; xnaddr[33] = ipParts[2];
+          xnaddr[34] = ipParts[1]; xnaddr[35] = ipParts[0];
+        }
+        xnaddr.writeUInt32LE(0x3e8, 36);
 
         const xnkey = stored?.xnkey ? Buffer.from(stored.xnkey) : STATIC_XNKEY;
+        if (xnkey.length < 16) {
+          const padded = Buffer.alloc(16);
+          xnkey.copy(padded);
+        }
 
         // Build response matching Python format:
         // 1. BLOB XNADDR (42 bytes)
@@ -193,7 +198,14 @@ export class MatchmakingHandler {
         // 7. BLOB XNKEY (16 bytes)
         w.blob(xnkey);
         // 8-15. I32 × 8
-        const intFields = stored?.intFields || [0x3e8, 0, 0x82c, 0, 0, 0, 0, 0];
+        // Build intFields: use stored intFields[0] (or API flags), but override
+        // intFields[1-7] with the search filter values so sessions always match
+        const intFields = stored?.intFields || [sess.flags || 0x3e8, 0, 0x82c, 0, 0, 0, 0, 0];
+        if (searchFilters.length >= 7) {
+          for (let i = 0; i < 7; i++) {
+            intFields[i + 1] = searchFilters[i];
+          }
+        }
         for (let i = 0; i < 8; i++) w.i32(intFields[i] || 0);
         // 16. FLOAT
         w.f32(stored?.floatField || 0);
@@ -201,7 +213,7 @@ export class MatchmakingHandler {
         const intFields2 = stored?.intFields2 || [0, 0, 0, 0];
         for (let i = 0; i < 4; i++) w.i32(intFields2[i] || 0);
 
-        this.logger.log(`  session sid=${sidHex} host=${hostIp}:${port} mac=${cleanMac}`);
+        this.logger.log(`  session sid=${sidHex} host=${sess.hostAddress}:${sess.port} mac=${sess.macAddress} xnkey=${stored?.xnkey ? 'stored' : 'static'} intFields=[${intFields.join(',')}] intFields2=[${intFields2.join(',')}]`);
       }
       conn.sendTaskReply(op, w.toBuffer(), results.length);
     } catch (err) {
@@ -217,6 +229,7 @@ export class MatchmakingHandler {
       const sessionIdHex = fields.sessionId.toString(16).padStart(16, '0');
       await this.sessionRepo.update(sessionIdHex, {
         xnkey: Buffer.from(fields.xnkey),
+        xnaddr: Buffer.from(fields.xnaddr),
         intFields: fields.intFields,
         floatField: fields.floatField,
         intFields2: fields.intFields2,

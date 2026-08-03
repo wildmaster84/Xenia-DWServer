@@ -11,7 +11,23 @@ export class UserFileRepository {
 
   async read(xuid: string, fileName: string): Promise<Buffer | null> {
     const doc = await this.model.findOne({ xuid, fileName }).lean().exec();
-    return doc ? doc.data : null;
+    if (!doc) return null;
+    return this.toBuffer(doc.data);
+  }
+
+  private toBuffer(data: any): Buffer {
+    if (Buffer.isBuffer(data)) return data;
+    if (data && typeof data === 'object' && data.buffer) {
+      return Buffer.from(data.buffer);
+    }
+    if (data && typeof data === 'object' && data.subarray) {
+      return Buffer.from(data.subarray());
+    }
+    try {
+      return Buffer.from(data);
+    } catch {
+      return Buffer.alloc(0);
+    }
   }
 
   async write(xuid: string, fileName: string, data: Buffer): Promise<void> {

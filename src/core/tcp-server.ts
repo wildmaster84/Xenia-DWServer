@@ -8,7 +8,6 @@ import { MAX_CONNECTIONS_PER_IP } from './bb-constants';
 export class TcpServer implements OnModuleInit, OnModuleDestroy {
   private readonly logger = new Logger('TcpServer');
   private server: TCPServer | null = null;
-  private connections: BBConnection[] = [];
 
   constructor(private dispatcher: ServiceDispatcher) {}
 
@@ -23,7 +22,6 @@ export class TcpServer implements OnModuleInit, OnModuleDestroy {
 
       const conn = new BBConnection(socket, this.dispatcher);
       conn.start();
-      this.connections.push(conn);
       this.logger.debug(`new connection from ${ip}:${socket.remotePort} (id=${conn['connId']})`);
     });
 
@@ -34,10 +32,9 @@ export class TcpServer implements OnModuleInit, OnModuleDestroy {
 
   onModuleDestroy() {
     this.logger.log('Shutting down TCP server...');
-    for (const conn of this.connections) {
+    for (const conn of BBConnection.allActiveConnections) {
       conn.destroy();
     }
-    this.connections = [];
     this.server?.close();
   }
 }

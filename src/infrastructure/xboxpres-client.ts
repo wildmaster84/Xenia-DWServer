@@ -28,7 +28,7 @@ export interface XboxPresSearchResult {
 export class XboxPresClient {
   private readonly logger = new Logger('XboxPresClient');
   private http: AxiosInstance;
-  private readonly baseUrl = 'https://xboxpreservation.org';
+  private readonly baseUrl = 'https://xenia-netplay-2a0298c0e3f4.herokuapp.com';
   private readonly titleHex: string;
 
   constructor() {

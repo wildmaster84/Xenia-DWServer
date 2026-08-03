@@ -4,8 +4,11 @@ import { BBReader } from '../../core/bb-reader';
 import { BD_NO_ERROR, BD_NO_FILE } from '../../core/bb-constants';
 import { BBConnection } from '../../core/bb-connection';
 import { UserFileRepository } from '../../infrastructure/persistance/repositories/user-file.repository';
-import * as fs from 'fs';
+import * as fsp from 'fs/promises';
+import * as zlib from 'zlib';
 import * as path from 'path';
+
+const STATS_FILES = new Set(['zmstatsCompressed', 'mpstatsCompressed']);
 
 @Injectable()
 export class StorageHandler {
@@ -46,6 +49,8 @@ export class StorageHandler {
       const data = r.blob();
       const xuidHex = conn.xuid.toString(16).padStart(16, '0');
 
+      this.logger.log(`[WRITE] name='${fileName}' xuid=${xuidHex} size=${data.length}`);
+
       await this.userFileRepo.write(xuidHex, fileName, Buffer.from(data));
 
       // StorageFileInfo (7 fields)
@@ -70,11 +75,31 @@ export class StorageHandler {
       const fileName = r.string();
       const xuidHex = conn.xuid.toString(16).padStart(16, '0');
 
+      this.logger.log(`[READ] name='${fileName}' xuid=${xuidHex}`);
+
       const data = await this.userFileRepo.read(xuidHex, fileName);
       if (data) {
-        w.blob(data);
+        let outData = data;
+
+        // Stats files may be stored as JSON ({"_buffer":"<base64>"}) — reconstruct compressed binary
+        if (STATS_FILES.has(fileName) && data.length > 0 && data[0] === 0x7b /* '{' */) {
+          try {
+            const json = JSON.parse(data.toString('utf-8'));
+            if (json._buffer) {
+              const dec = Buffer.from(json._buffer, 'base64');
+              outData = zlib.deflateRawSync(dec);
+              this.logger.log(`[READ RECONSTRUCTED] name='${fileName}' json=${data.length}B -> compressed=${outData.length}B`);
+            }
+          } catch (e) {
+            this.logger.warn(`[READ JSON PARSE FAILED] name='${fileName}': ${e}, sending raw data`);
+          }
+        }
+
+        this.logger.log(`[READ FOUND] name='${fileName}' size=${outData.length}`);
+        w.blob(outData);
         conn.sendTaskReply(op, w.toBuffer(), 1);
       } else {
+        this.logger.log(`[READ NOT FOUND] name='${fileName}' xuid=${xuidHex} -> BD_NO_FILE`);
         w.u32(BD_NO_FILE);
         conn.sendTaskReply(op, w.toBuffer(), 0, BD_NO_FILE);
       }
@@ -109,13 +134,15 @@ export class StorageHandler {
   private async listPublisherFiles(op: number, conn: BBConnection): Promise<void> {
     const w = new BBWriter();
     try {
-      if (!fs.existsSync(this.filesDir)) {
+      let entries: string[];
+      try {
+        entries = await fsp.readdir(this.filesDir);
+      } catch {
         conn.replyEmpty(op);
         return;
       }
-      const entries = fs.readdirSync(this.filesDir);
       for (const name of entries) {
-        const stat = fs.statSync(path.join(this.filesDir, name));
+        const stat = await fsp.stat(path.join(this.filesDir, name));
         w.u32(0);
         w.u64(0n);
         w.u32(stat.size);
@@ -140,12 +167,13 @@ export class StorageHandler {
       let data = this.pubCache.get(safe);
       if (!data) {
         const filePath = path.join(this.filesDir, safe);
-        if (!fs.existsSync(filePath)) {
+        try {
+          data = await fsp.readFile(filePath);
+        } catch {
           w.u32(BD_NO_FILE);
           conn.sendTaskReply(op, w.toBuffer(), 0, BD_NO_FILE);
           return;
         }
-        data = fs.readFileSync(filePath);
         this.pubCache.set(safe, data);
       }
 

@@ -59,21 +59,37 @@ export class ContentStreamingHandler {
     w.u32(meta?.category || 0);
     w.u32(meta?.flag || 0);
     w.u64(BigInt('0x' + (meta?.authorXuid || '0')));
-    w.string(meta?.title || '');
+    w.string((meta?.title || '').slice(0, 0x40));
     w.i16(meta?.i16_1 || 0);
-    w.string(meta?.description || '');
-    w.string(meta?.extraText || '');
+    w.string((meta?.description || '').slice(0, 0x80));
+    w.string((meta?.extraText || '').slice(0, 0x180));
     w.i16(meta?.i16_2 || 0);
-    w.blob(meta?.extraData ? Buffer.from(meta.extraData, 'hex') : Buffer.alloc(0));
+    // blob extra_data (max 0x200)
+    const extra = meta?.extraData;
+    if (extra && typeof extra === 'string') {
+      w.blob(Buffer.from(extra, 'hex').subarray(0, 0x200));
+    } else if (extra && Buffer.isBuffer(extra)) {
+      w.blob(extra.subarray(0, 0x200));
+    } else {
+      w.blob(Buffer.alloc(0));
+    }
     w.u32(meta?.u32Trailer || 0);
-    const pairs = meta?.pairs || [['3', '8']];
-    w.u32(pairs.length);
+    // Pairs array: 0x6E + 0x08 + raw_u32(byteCount) + raw_u32(totalU64Count) + [0x0A + u64 + 0x0A + u64] * pairs
+    const pairs = meta?.pairs || [];
+    const totalU64Count = pairs.length * 2;
+    const byteCount = 9 * totalU64Count;
+    const header = Buffer.alloc(1 + 1 + 4 + 4);
+    header[0] = 0x6e;
+    header[1] = 0x08;
+    header.writeUInt32LE(byteCount, 2);
+    header.writeUInt32LE(totalU64Count, 6);
+    w.raw(header);
     for (const p of pairs) {
       w.u64(BigInt(p[0]));
       w.u64(BigInt(p[1]));
     }
     w.u32(meta?.u32Trailer2 || 0);
-    w.u64(BigInt('0x' + (meta?.u64Trailer || meta?.clipId || '0')));
+    w.u64(BigInt('0x' + (meta?.u64Trailer || '0')));
   }
 
   private async getClipById(op: number, r: BBReader, conn: BBConnection): Promise<void> {
@@ -146,12 +162,13 @@ export class ContentStreamingHandler {
         const str2 = r.peekTag() === 0x10 ? r.string() : '';
 
         if (name.startsWith('Emblem')) {
-          // Save emblem data + metadata to MongoDB
           const xuidHex = conn.xuid.toString(16).padStart(16, '0');
+          this.logger.log(`[EMBLEM SAVE] name='${name}' xuid=${xuidHex} slot=${i16_1} type=0x${u32_1.toString(16)} cat=${i16_2} blob=${blob.length}B`);
           await this.userFileRepo.write(xuidHex, name, Buffer.from(blob));
-          // Reply empty (metadata-only for op=5)
+          this.logger.log(`[EMBLEM SAVED] name='${name}'`);
           conn.replyEmpty(op);
         } else {
+          this.logger.log(`[CONTENT QUERY] unknown name='${name}' -> empty`);
           conn.replyEmpty(op);
         }
       } else {
@@ -186,7 +203,7 @@ export class ContentStreamingHandler {
         description: desc,
         extraData: Buffer.from(extra),
         clipData: Buffer.from(clipData),
-        pairs: [['3', '8']],
+        pairs: [],
       });
     } catch (err) {
       this.logger.error(`uploadClip: ${err}`);
@@ -223,19 +240,57 @@ export class ContentStreamingHandler {
     const w = new BBWriter();
     try {
       const xuids = r.u64Array();
-      r.u32();
-      r.i16();
-      r.i16();
+      r.u32();  // start
+      r.i16();  // capacity
+      r.i16();  // field_d
       const category = r.i16();
 
-      const clips = await this.clipRepo.getByCategory(category);
-      const emblems = category === 6 ? await this.clipRepo.getByCategory(0) : [];
-      const allResults = [...clips, ...emblems];
+      let resultsCount = 0;
 
-      for (const clip of allResults) {
-        this.writeClipResult(w, clip);
+      // Clips (category 0 = all, 1 = clips)
+      if (category === 0 || category === 1) {
+        const xuidHex = conn.xuid.toString(16).padStart(16, '0');
+        const clips = await this.clipRepo.getByAuthor(xuidHex);
+        for (const clip of clips) {
+          this.writeClipResult(w, clip);
+          resultsCount++;
+        }
       }
-      conn.sendTaskReply(op, w.toBuffer(), allResults.length);
+
+      // Emblems (category 0 = all, 6 = emblems)
+      // Emblems are stored in userFileRepo, not clipRepo.
+      // Python server reads from user_file_list and returns using clip_write_clip_result (15-field).
+      if (category === 0 || category === 6) {
+        const xuidHex = conn.xuid.toString(16).padStart(16, '0');
+        const userFiles = await this.userFileRepo.list(xuidHex);
+        for (const f of userFiles) {
+          if (!f.fileName.startsWith('Emblem')) continue;
+          const slotMatch = f.fileName.match(/Emblem_(\d+)/);
+          const slot = slotMatch ? parseInt(slotMatch[1], 10) : 0;
+          const emblemMeta = {
+            clipId: xuidHex,
+            type: 6,
+            category: 6,
+            flag: 0,
+            authorXuid: xuidHex,
+            title: f.fileName,
+            i16_1: slot,
+            description: '',
+            extraText: '',
+            i16_2: 0,
+            extraData: Buffer.alloc(0),
+            u32Trailer: 0,
+            pairs: [],
+            u32Trailer2: 0,
+            u64Trailer: '0',
+          };
+          this.writeClipResult(w, emblemMeta);
+          resultsCount++;
+        }
+        this.logger.log(`emblem listing: ${resultsCount} emblems (category=${category})`);
+      }
+
+      conn.sendTaskReply(op, w.toBuffer(), resultsCount);
     } catch (err) {
       this.logger.error(`subscribeToContentStream: ${err}`);
       conn.replyEmpty(op);

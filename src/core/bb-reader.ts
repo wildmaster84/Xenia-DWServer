@@ -16,6 +16,10 @@ export class BBReader {
     return this.data.length - this.pos;
   }
 
+  get rawData(): Buffer {
+    return this.data;
+  }
+
   peekTag(): number {
     return this.pos < this.data.length ? this.data[this.pos] : -1;
   }
@@ -117,13 +121,15 @@ export class BBReader {
   u32Array(): number[] {
     const tag = this.peekTag();
     if (tag === TAG.U32_ARRAY) {
-      // 0x6C: raw u32 array — tag + tagged_u32(byteCount) + raw_u32(count) + raw u32 values
+      // 0x6C: u32 array — tag + tagged_u32(byteCount) + count + values
+      // Count and values may be tagged (0x08 prefix) or raw — auto-detect
       this.take(1); // consume 0x6C
       this.u32(); // byteCount (tagged, consumed but not needed)
-      const count = this.take(4).readUInt32LE(0);
+      const isTagged = this.peekTag() === TAG.U32;
+      const count = isTagged ? this.u32() : this.take(4).readUInt32LE(0);
       const result: number[] = [];
       for (let i = 0; i < count; i++) {
-        result.push(this.take(4).readUInt32LE(0));
+        result.push(isTagged ? this.u32() : this.take(4).readUInt32LE(0));
       }
       return result;
     }

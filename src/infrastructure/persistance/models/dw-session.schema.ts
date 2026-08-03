@@ -43,6 +43,9 @@ export class DWSession {
   @Prop({ type: Buffer, required: false })
   xnkey: Buffer;
 
+  @Prop({ type: Buffer, required: false })
+  xnaddr: Buffer;
+
   // Matchmaking fields (field_0x13C through field_0x16C)
   @Prop({ type: [Number], required: false, default: [] })
   intFields: number[];

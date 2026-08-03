@@ -38,9 +38,13 @@ export class BBConnection {
   private dispatcher: ServiceDispatcher;
 
   // Connection state
-  private buffer = Buffer.alloc(0);
+  private rxBuf: Buffer = Buffer.allocUnsafe(65536);
+  private rxBufLen = 0;
   private alive = true;
   private keepaliveTimer: NodeJS.Timeout | null = null;
+
+  // Request serialization — ensures one request completes before the next starts
+  private pending: Promise<void> = Promise.resolve();
 
   // Player state
   public player: PlayerState = {
@@ -101,19 +105,30 @@ export class BBConnection {
   }
 
   private feed(data: Buffer): void {
-    this.buffer = Buffer.concat([this.buffer, data]);
+    // Ensure capacity
+    if (this.rxBufLen + data.length > this.rxBuf.length) {
+      let cap = this.rxBuf.length;
+      while (cap < this.rxBufLen + data.length) cap *= 2;
+      const grown = Buffer.allocUnsafe(cap);
+      this.rxBuf.copy(grown, 0, 0, this.rxBufLen);
+      this.rxBuf = grown;
+    }
+    data.copy(this.rxBuf, this.rxBufLen);
+    this.rxBufLen += data.length;
 
-    while (this.alive && this.buffer.length >= 4) {
-      const size = this.buffer.readUInt32LE(0);
+    while (this.alive && this.rxBufLen >= 4) {
+      const size = this.rxBuf.readUInt32LE(0);
       if (size === 0) {
         // Client keepalive — consume, no reply
-        this.buffer = this.buffer.subarray(4);
+        this.rxBuf.copyWithin(0, 4, this.rxBufLen);
+        this.rxBufLen -= 4;
         continue;
       }
       if (size === 200) {
         // Buffer-available notification — 8 bytes total, no reply
-        if (this.buffer.length < 8) break;
-        this.buffer = this.buffer.subarray(8);
+        if (this.rxBufLen < 8) break;
+        this.rxBuf.copyWithin(0, 8, this.rxBufLen);
+        this.rxBufLen -= 8;
         continue;
       }
       if (size > MAX_FRAME_SIZE) {
@@ -121,10 +136,12 @@ export class BBConnection {
         this.destroy();
         return;
       }
-      if (this.buffer.length < 4 + size) break;
+      if (this.rxBufLen < 4 + size) break;
 
-      const body = this.buffer.subarray(4, 4 + size);
-      this.buffer = this.buffer.subarray(4 + size);
+      // Copy body — async handlers hold references, so we can't use a view
+      const body = Buffer.from(this.rxBuf.subarray(4, 4 + size));
+      this.rxBuf.copyWithin(0, 4 + size, this.rxBufLen);
+      this.rxBufLen -= (4 + size);
 
       // body[0] = padding (0x00), body[1] = msg_type
       const msgType = body[1];
@@ -208,8 +225,9 @@ export class BBConnection {
     const serviceName = SERVICE_TYPES[serviceType] || `unknown_${serviceType}`;
     this.logger.log(`[${this.connId}] RX ${serviceName}(${serviceType}) op=${op} len=${payload.length} body=${payload.toString('hex').substring(0, 80)}`);
 
-    this.dispatcher
-      .dispatch(serviceType, op, payload, this)
+    // Serialize requests per connection — ensures SetProfile completes before GetProfile reads
+    this.pending = this.pending
+      .then(() => this.dispatcher.dispatch(serviceType, op, payload, this))
       .catch((err) => this.logger.error(`[${this.connId}] dispatch error: ${err}`));
   }
 
@@ -239,16 +257,16 @@ export class BBConnection {
   }
 
   sendFrame(msgType: number, payload: Buffer): void {
-    const padding = Buffer.from([0x00]);
-    const typeByte = Buffer.from([msgType]);
-    const body = Buffer.concat([padding, typeByte, payload]);
-    const sizeBuf = Buffer.alloc(4);
-    sizeBuf.writeUInt32LE(body.length, 0);
-    const frame = Buffer.concat([sizeBuf, body]);
+    const bodyLen = 1 + 1 + payload.length;
+    const frame = Buffer.allocUnsafe(4 + bodyLen);
+    frame.writeUInt32LE(bodyLen, 0);
+    frame[4] = 0x00; // padding
+    frame[5] = msgType;
+    payload.copy(frame, 6);
 
     if (!this.socket.destroyed) {
       this.socket.write(frame);
-      // Log full frame hex for debugging (first 100 bytes)
+      // Log full frame hex for debugging (first 200 bytes)
       if (frame.length > 2 && frame[5] === 0x01) {
         this.logger.debug(`[${this.connId}] TX frame hex=${frame.toString('hex').slice(0, 200)}`);
       }
@@ -306,5 +324,9 @@ export class BBConnection {
 
   static getConnectionsForIP(ip: string): number {
     return BBConnection.ipConnections.get(ip) || 0;
+  }
+
+  static get allActiveConnections(): readonly BBConnection[] {
+    return BBConnection.activeConnections;
   }
 }

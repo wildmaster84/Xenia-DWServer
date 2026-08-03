@@ -32,13 +32,14 @@ export class ProfileHandler {
     const data = await this.userFileRepo.read(xuidHex, 'profile');
 
     if (data) {
+      this.logger.log(`[GET PROFILE] xuid=${xuidHex} size=${data.length} hex=${data.subarray(0, Math.min(data.length, 64)).toString('hex')}`);
       w.u64(conn.xuid);
       w.i32(2);
       w.blob(data);
       conn.sendTaskReply(op, w.toBuffer(), 1);
     } else {
-      w.u32(BD_NO_FILE);
-      conn.sendTaskReply(op, w.toBuffer(), 0, BD_NO_FILE);
+      this.logger.log(`[GET PROFILE] xuid=${xuidHex} NOT FOUND -> empty reply`);
+      conn.replyEmpty(op);
     }
   }
 
@@ -47,7 +48,9 @@ export class ProfileHandler {
       const ptype = r.i32();
       const data = r.blob();
       const xuidHex = conn.xuid.toString(16).padStart(16, '0');
+      this.logger.log(`[SET PROFILE] xuid=${xuidHex} ptype=${ptype} size=${data.length} hex=${data.subarray(0, Math.min(data.length, 64)).toString('hex')}`);
       await this.userFileRepo.write(xuidHex, 'profile', Buffer.from(data));
+      this.logger.log(`[SET PROFILE DONE] xuid=${xuidHex} size=${data.length}`);
     } catch (err) {
       this.logger.error(`setProfile: ${err}`);
     }

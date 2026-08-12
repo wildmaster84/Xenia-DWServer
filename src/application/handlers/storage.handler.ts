@@ -4,8 +4,8 @@ import { BBReader } from '../../core/bb-reader';
 import { BD_NO_ERROR, BD_NO_FILE } from '../../core/bb-constants';
 import { BBConnection } from '../../core/bb-connection';
 import { UserFileRepository } from '../../infrastructure/persistance/repositories/user-file.repository';
+import { StatsCacheService } from '../services/stats-cache.service';
 import * as fsp from 'fs/promises';
-import * as zlib from 'zlib';
 import * as path from 'path';
 
 const STATS_FILES = new Set(['zmstatsCompressed', 'mpstatsCompressed']);
@@ -16,7 +16,10 @@ export class StorageHandler {
   private pubCache = new Map<string, Buffer>();
   private readonly filesDir: string;
 
-  constructor(private userFileRepo: UserFileRepository) {
+  constructor(
+    private userFileRepo: UserFileRepository,
+    private statsCache: StatsCacheService,
+  ) {
     this.filesDir = path.join(process.cwd(), 'files');
   }
 
@@ -51,7 +54,13 @@ export class StorageHandler {
 
       this.logger.log(`[WRITE] name='${fileName}' xuid=${xuidHex} size=${data.length}`);
 
-      await this.userFileRepo.write(xuidHex, fileName, Buffer.from(data));
+      if (STATS_FILES.has(fileName)) {
+        // Write-back cache: update cache instantly, flush to MongoDB every 5 min
+        this.statsCache.setRaw(xuidHex, fileName, Buffer.from(data));
+      } else {
+        // Non-stats files: write directly to MongoDB
+        await this.userFileRepo.write(xuidHex, fileName, Buffer.from(data));
+      }
 
       // StorageFileInfo (7 fields)
       w.u32(0);
@@ -81,17 +90,15 @@ export class StorageHandler {
       if (data) {
         let outData = data;
 
-        // Stats files may be stored as JSON ({"_buffer":"<base64>"}) — reconstruct compressed binary
-        if (STATS_FILES.has(fileName) && data.length > 0 && data[0] === 0x7b /* '{' */) {
-          try {
-            const json = JSON.parse(data.toString('utf-8'));
-            if (json._buffer) {
-              const dec = Buffer.from(json._buffer, 'base64');
-              outData = zlib.deflateRawSync(dec);
-              this.logger.log(`[READ RECONSTRUCTED] name='${fileName}' json=${data.length}B -> compressed=${outData.length}B`);
-            }
-          } catch (e) {
-            this.logger.warn(`[READ JSON PARSE FAILED] name='${fileName}': ${e}, sending raw data`);
+        // Stats files: use cache for raw compressed binary
+        if (STATS_FILES.has(fileName)) {
+          const cached = this.statsCache.getRaw(xuidHex, fileName);
+          if (cached) {
+            outData = cached;
+          } else {
+            // Cache miss — populate from MongoDB data
+            const { raw } = this.statsCache.populate(xuidHex, fileName, data);
+            outData = raw;
           }
         }
 

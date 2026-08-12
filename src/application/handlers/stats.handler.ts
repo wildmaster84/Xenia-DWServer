@@ -5,7 +5,7 @@ import { BD_NO_ERROR } from '../../core/bb-constants';
 import { BBConnection } from '../../core/bb-connection';
 import { UserFileRepository } from '../../infrastructure/persistance/repositories/user-file.repository';
 import { StatsParser } from '../services/stats-parser';
-import * as zlib from 'zlib';
+import { StatsCacheService } from '../services/stats-cache.service';
 
 @Injectable()
 export class StatsHandler {
@@ -14,6 +14,7 @@ export class StatsHandler {
   constructor(
     private userFileRepo: UserFileRepository,
     private statsParser: StatsParser,
+    private statsCache: StatsCacheService,
   ) {}
 
   async handle(op: number, body: Buffer, conn: BBConnection): Promise<void> {
@@ -41,32 +42,42 @@ export class StatsHandler {
 
   private async getMpStats(conn: BBConnection): Promise<Record<string, number>> {
     const xuidHex = conn.xuid.toString(16).padStart(16, '0');
-    let raw = await this.userFileRepo.read(xuidHex, 'mpstatsCompressed');
-    this.logger.log(`getMpStats: xuid=${xuidHex} raw=${raw ? raw.length + ' bytes' : 'NOT FOUND'}`);
-    if (raw && raw.length > 0 && raw[0] === 0x7b) {
-      try {
-        const json = JSON.parse(raw.toString('utf-8'));
-        if (json._buffer) raw = zlib.deflateRawSync(Buffer.from(json._buffer, 'base64'));
-      } catch {}
+    const fileName = 'mpstatsCompressed';
+
+    // Check cache first
+    const cached = this.statsCache.getParsed(xuidHex, fileName);
+    if (cached) {
+      return cached;
     }
-    const stats = raw ? this.statsParser.parseMpStats(raw) : {};
-    this.logger.log(`getMpStats: parsed ${Object.keys(stats).length} stats, kills=${stats['kills'] || 0} score=${stats['score'] || 0} rankxp=${stats['rankxp'] || 0}`);
-    return stats;
+
+    // Cache miss — read from MongoDB and populate cache
+    const raw = await this.userFileRepo.read(xuidHex, fileName);
+    this.logger.log(`getMpStats: xuid=${xuidHex} raw=${raw ? raw.length + ' bytes' : 'NOT FOUND'}`);
+    if (!raw) return {};
+
+    const { parsed } = this.statsCache.populate(xuidHex, fileName, raw);
+    this.logger.log(`getMpStats: parsed ${Object.keys(parsed).length} stats, kills=${parsed['kills'] || 0} score=${parsed['score'] || 0} rankxp=${parsed['rankxp'] || 0}`);
+    return parsed;
   }
 
   private async getZmStats(conn: BBConnection): Promise<Record<string, number>> {
     const xuidHex = conn.xuid.toString(16).padStart(16, '0');
-    let raw = await this.userFileRepo.read(xuidHex, 'zmstatsCompressed');
-    this.logger.log(`getZmStats: xuid=${xuidHex} raw=${raw ? raw.length + ' bytes' : 'NOT FOUND'}`);
-    if (raw && raw.length > 0 && raw[0] === 0x7b) {
-      try {
-        const json = JSON.parse(raw.toString('utf-8'));
-        if (json._buffer) raw = zlib.deflateRawSync(Buffer.from(json._buffer, 'base64'));
-      } catch {}
+    const fileName = 'zmstatsCompressed';
+
+    // Check cache first
+    const cached = this.statsCache.getParsed(xuidHex, fileName);
+    if (cached) {
+      return cached;
     }
-    const stats = raw ? this.statsParser.parseZmStats(raw) : {};
-    this.logger.log(`getZmStats parsed: kills=${stats['kills'] ?? 0} deaths=${stats['deaths'] ?? 0} downs=${stats['downs'] ?? 0} revives=${stats['revives'] ?? 0} headshots=${stats['headshots'] ?? 0} gibs=${stats['gibs'] ?? 0} bullets_fired=${stats['bullets_fired'] ?? 0} bullets_hit=${stats['bullets_hit'] ?? 0} grenade_kills=${stats['grenade_kills'] ?? 0} perks_drank=${stats['perks_drank'] ?? 0} distance_traveled=${stats['distance_traveled'] ?? 0}`);
-    return stats;
+
+    // Cache miss — read from MongoDB and populate cache
+    const raw = await this.userFileRepo.read(xuidHex, fileName);
+    this.logger.log(`getZmStats: xuid=${xuidHex} raw=${raw ? raw.length + ' bytes' : 'NOT FOUND'}`);
+    if (!raw) return {};
+
+    const { parsed } = this.statsCache.populate(xuidHex, fileName, raw);
+    this.logger.log(`getZmStats parsed: kills=${parsed['kills'] ?? 0} deaths=${parsed['deaths'] ?? 0} downs=${parsed['downs'] ?? 0} revives=${parsed['revives'] ?? 0} headshots=${parsed['headshots'] ?? 0} gibs=${parsed['gibs'] ?? 0} bullets_fired=${parsed['bullets_fired'] ?? 0} bullets_hit=${parsed['bullets_hit'] ?? 0} grenade_kills=${parsed['grenade_kills'] ?? 0} perks_drank=${parsed['perks_drank'] ?? 0} distance_traveled=${parsed['distance_traveled'] ?? 0}`);
+    return parsed;
   }
 
   private async readEntityStats(op: number, r: BBReader, conn: BBConnection): Promise<void> {

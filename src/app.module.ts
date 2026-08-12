@@ -26,6 +26,7 @@ import { TagsHandler } from './application/handlers/tags.handler';
 
 // Services
 import { StatsParser } from './application/services/stats-parser';
+import { StatsCacheService } from './application/services/stats-cache.service';
 
 @Module({
   imports: [
@@ -53,6 +54,7 @@ import { StatsParser } from './application/services/stats-parser';
     AntiCheatHandler,
     TagsHandler,
     StatsParser,
+    StatsCacheService,
   ],
 })
 export class AppModule implements OnModuleInit {
@@ -69,6 +71,7 @@ export class AppModule implements OnModuleInit {
     private pooledStorage: PooledStorageHandler,
     private anticheat: AntiCheatHandler,
     private tags: TagsHandler,
+    private statsCache: StatsCacheService,
   ) {}
 
   onModuleInit() {
@@ -95,6 +98,11 @@ export class AppModule implements OnModuleInit {
     this.dispatcher.registerOnDisconnect((conn: BBConnection) => {
       this.matchmaking.onDisconnect(conn).catch((err) =>
         this.logger.error(`onDisconnect cleanup error: ${err}`),
+      );
+      // Flush dirty stats cache for this player before removing
+      const xuidHex = conn.xuid.toString(16).padStart(16, '0');
+      this.statsCache.invalidateAll(xuidHex).catch((err) =>
+        this.logger.error(`onDisconnect stats flush error: ${err}`),
       );
     });
 

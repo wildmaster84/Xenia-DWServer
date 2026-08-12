@@ -1,0 +1,4367 @@
+{
+  "asset": "ddl_mp/stats.ddl",
+  "name": "ddl_mp/stats.ddl",
+  "version": 244,
+  "bits": 394892,
+  "members": [
+    {
+      "name": "playerxuid",
+      "index": 0,
+      "offset": 0,
+      "bits": 64,
+      "count": 1,
+      "elem_bits": 64,
+      "type": 4
+    },
+    {
+      "name": "playerstatslist",
+      "index": 1,
+      "offset": 64,
+      "bits": 18384,
+      "count": 383,
+      "elem_bits": 48,
+      "type": 8,
+      "struct": 1
+    },
+    {
+      "name": "higheststats",
+      "index": 2,
+      "offset": 18448,
+      "bits": 144,
+      "count": 6,
+      "elem_bits": 24,
+      "type": 2
+    },
+    {
+      "name": "hashlen",
+      "index": 3,
+      "offset": 18592,
+      "bits": 32,
+      "count": 1,
+      "elem_bits": 32,
+      "type": 2
+    },
+    {
+      "name": "statshash",
+      "index": 4,
+      "offset": 18624,
+      "bits": 400,
+      "count": 50,
+      "elem_bits": 8,
+      "type": 0
+    },
+    {
+      "name": "recentearnings",
+      "index": 5,
+      "offset": 19024,
+      "bits": 250,
+      "count": 10,
+      "elem_bits": 25,
+      "type": 8,
+      "struct": 2
+    },
+    {
+      "name": "recenthitloccounts",
+      "index": 6,
+      "offset": 19274,
+      "bits": 3050,
+      "count": 10,
+      "elem_bits": 305,
+      "type": 8,
+      "struct": 3
+    },
+    {
+      "name": "recentscores",
+      "index": 7,
+      "offset": 22324,
+      "bits": 730,
+      "count": 10,
+      "elem_bits": 73,
+      "type": 8,
+      "struct": 4
+    },
+    {
+      "name": "afteractionreportstats",
+      "index": 8,
+      "offset": 23054,
+      "bits": 900,
+      "count": 1,
+      "elem_bits": 900,
+      "type": 8,
+      "struct": 5
+    },
+    {
+      "name": "currenthitlocationindex",
+      "index": 9,
+      "offset": 23954,
+      "bits": 4,
+      "count": 1,
+      "elem_bits": 4,
+      "type": 2
+    },
+    {
+      "name": "gamehistory",
+      "index": 10,
+      "offset": 23958,
+      "bits": 11216,
+      "count": 2,
+      "elem_bits": 5608,
+      "type": 8,
+      "struct": 9
+    },
+    {
+      "name": "probation",
+      "index": 11,
+      "offset": 35174,
+      "bits": 192,
+      "count": 2,
+      "elem_bits": 96,
+      "type": 8,
+      "struct": 10
+    },
+    {
+      "name": "playerstatsbygametype",
+      "index": 12,
+      "offset": 35366,
+      "bits": 39408,
+      "count": 24,
+      "elem_bits": 1642,
+      "type": 8,
+      "struct": 11
+    },
+    {
+      "name": "playerstatsbymap",
+      "index": 13,
+      "offset": 74774,
+      "bits": 240,
+      "count": 15,
+      "elem_bits": 16,
+      "type": 8,
+      "struct": 12
+    },
+    {
+      "name": "itemstats",
+      "index": 14,
+      "offset": 75014,
+      "bits": 237056,
+      "count": 256,
+      "elem_bits": 926,
+      "type": 8,
+      "struct": 14
+    },
+    {
+      "name": "groupstats",
+      "index": 15,
+      "offset": 312070,
+      "bits": 17280,
+      "count": 20,
+      "elem_bits": 864,
+      "type": 8,
+      "struct": 13
+    },
+    {
+      "name": "unlocks",
+      "index": 16,
+      "offset": 329350,
+      "bits": 256,
+      "count": 32,
+      "elem_bits": 8,
+      "type": 0
+    },
+    {
+      "name": "attachments",
+      "index": 17,
+      "offset": 329606,
+      "bits": 25056,
+      "count": 29,
+      "elem_bits": 864,
+      "type": 8,
+      "struct": 15
+    },
+    {
+      "name": "matches_lean_used",
+      "index": 18,
+      "offset": 354662,
+      "bits": 32,
+      "count": 1,
+      "elem_bits": 32,
+      "type": 2
+    },
+    {
+      "name": "weaponstats",
+      "index": 19,
+      "offset": 354694,
+      "bits": 6400,
+      "count": 64,
+      "elem_bits": 100,
+      "type": 8,
+      "struct": 16
+    },
+    {
+      "name": "publicmatchclasssetindex",
+      "index": 20,
+      "offset": 361094,
+      "bits": 4,
+      "count": 1,
+      "elem_bits": 4,
+      "type": 2
+    },
+    {
+      "name": "custommatchclasssetindex",
+      "index": 21,
+      "offset": 361098,
+      "bits": 4,
+      "count": 1,
+      "elem_bits": 4,
+      "type": 2
+    },
+    {
+      "name": "leaguematchclasssetindex",
+      "index": 22,
+      "offset": 361102,
+      "bits": 4,
+      "count": 1,
+      "elem_bits": 4,
+      "type": 2
+    },
+    {
+      "name": "cacloadouts",
+      "index": 23,
+      "offset": 361106,
+      "bits": 5539,
+      "count": 1,
+      "elem_bits": 5539,
+      "type": 8,
+      "struct": 18,
+      "named_by": "hash"
+    },
+    {
+      "name": "custommatchcacloadouts",
+      "index": 24,
+      "offset": 366645,
+      "bits": 2796,
+      "count": 1,
+      "elem_bits": 2796,
+      "type": 8,
+      "struct": 19
+    },
+    {
+      "name": "leaguecacloadouts",
+      "index": 25,
+      "offset": 369441,
+      "bits": 2796,
+      "count": 1,
+      "elem_bits": 2796,
+      "type": 8,
+      "struct": 19
+    },
+    {
+      "name": "skill_rating",
+      "index": 26,
+      "offset": 372237,
+      "bits": 32,
+      "count": 1,
+      "elem_bits": 32,
+      "type": 5
+    },
+    {
+      "name": "skill_variance",
+      "index": 27,
+      "offset": 372269,
+      "bits": 32,
+      "count": 1,
+      "elem_bits": 32,
+      "type": 5
+    },
+    {
+      "name": "gt_skill_rating",
+      "index": 28,
+      "offset": 372301,
+      "bits": 768,
+      "count": 24,
+      "elem_bits": 32,
+      "type": 5
+    },
+    {
+      "name": "gt_skill_variance",
+      "index": 29,
+      "offset": 373069,
+      "bits": 768,
+      "count": 24,
+      "elem_bits": 32,
+      "type": 5
+    },
+    {
+      "name": "activefriends",
+      "index": 30,
+      "offset": 373837,
+      "bits": 1664,
+      "count": 16,
+      "elem_bits": 104,
+      "type": 8,
+      "struct": 20
+    },
+    {
+      "name": "numactivefriends",
+      "index": 31,
+      "offset": 375501,
+      "bits": 5,
+      "count": 1,
+      "elem_bits": 5,
+      "type": 2
+    },
+    {
+      "name": "emblemstats",
+      "index": 32,
+      "offset": 375506,
+      "bits": 5008,
+      "count": 1,
+      "elem_bits": 5008,
+      "type": 8,
+      "struct": 23
+    },
+    {
+      "name": "clantagstats",
+      "index": 33,
+      "offset": 380514,
+      "bits": 76,
+      "count": 1,
+      "elem_bits": 76,
+      "type": 8,
+      "struct": 25
+    },
+    {
+      "name": "lastconsolesave",
+      "index": 34,
+      "offset": 380590,
+      "bits": 4,
+      "count": 1,
+      "elem_bits": 4,
+      "type": 2
+    },
+    {
+      "name": "consoleinfo",
+      "index": 35,
+      "offset": 380594,
+      "bits": 3200,
+      "count": 10,
+      "elem_bits": 320,
+      "type": 8,
+      "struct": 27
+    },
+    {
+      "name": "connectionid",
+      "index": 36,
+      "offset": 383794,
+      "bits": 64,
+      "count": 1,
+      "elem_bits": 64,
+      "type": 4
+    },
+    {
+      "name": "uploadbandwidth",
+      "index": 37,
+      "offset": 383858,
+      "bits": 32,
+      "count": 1,
+      "elem_bits": 32,
+      "type": 2
+    },
+    {
+      "name": "demonwareflags",
+      "index": 38,
+      "offset": 383890,
+      "bits": 256,
+      "count": 32,
+      "elem_bits": 8,
+      "type": 0
+    },
+    {
+      "name": "statresetnotification",
+      "index": 39,
+      "offset": 384146,
+      "bits": 64,
+      "count": 1,
+      "elem_bits": 64,
+      "type": 4
+    },
+    {
+      "name": "input_invertpitch",
+      "index": 40,
+      "offset": 384210,
+      "bits": 1,
+      "count": 1,
+      "elem_bits": 1,
+      "type": 2
+    },
+    {
+      "name": "gpad_rumble",
+      "index": 41,
+      "offset": 384211,
+      "bits": 1,
+      "count": 1,
+      "elem_bits": 1,
+      "type": 2
+    },
+    {
+      "name": "quick_launch_mode",
+      "index": 42,
+      "offset": 384212,
+      "bits": 2,
+      "count": 1,
+      "elem_bits": 2,
+      "type": 2
+    },
+    {
+      "name": "cg_mature",
+      "index": 43,
+      "offset": 384214,
+      "bits": 1,
+      "count": 1,
+      "elem_bits": 1,
+      "type": 2
+    },
+    {
+      "name": "input_autoaim",
+      "index": 44,
+      "offset": 384215,
+      "bits": 1,
+      "count": 1,
+      "elem_bits": 1,
+      "type": 2
+    },
+    {
+      "name": "cg_subtitles",
+      "index": 45,
+      "offset": 384216,
+      "bits": 1,
+      "count": 1,
+      "elem_bits": 1,
+      "type": 2
+    },
+    {
+      "name": "gpad_buttonsconfig",
+      "index": 46,
+      "offset": 384217,
+      "bits": 3,
+      "count": 1,
+      "elem_bits": 3,
+      "type": 2
+    },
+    {
+      "name": "gpad_sticksconfig",
+      "index": 47,
+      "offset": 384220,
+      "bits": 3,
+      "count": 1,
+      "elem_bits": 3,
+      "type": 2
+    },
+    {
+      "name": "team_indicator",
+      "index": 48,
+      "offset": 384223,
+      "bits": 2,
+      "count": 1,
+      "elem_bits": 2,
+      "type": 2
+    },
+    {
+      "name": "r_stereo3davailable",
+      "index": 49,
+      "offset": 384225,
+      "bits": 1,
+      "count": 1,
+      "elem_bits": 1,
+      "type": 2
+    },
+    {
+      "name": "r_stereo3don",
+      "index": 50,
+      "offset": 384226,
+      "bits": 1,
+      "count": 1,
+      "elem_bits": 1,
+      "type": 2
+    },
+    {
+      "name": "input_targetassist",
+      "index": 51,
+      "offset": 384227,
+      "bits": 1,
+      "count": 1,
+      "elem_bits": 1,
+      "type": 2
+    },
+    {
+      "name": "snd_menu_voice",
+      "index": 52,
+      "offset": 384228,
+      "bits": 5,
+      "count": 1,
+      "elem_bits": 5,
+      "type": 2
+    },
+    {
+      "name": "snd_menu_music",
+      "index": 53,
+      "offset": 384233,
+      "bits": 5,
+      "count": 1,
+      "elem_bits": 5,
+      "type": 2
+    },
+    {
+      "name": "snd_menu_sfx",
+      "index": 54,
+      "offset": 384238,
+      "bits": 5,
+      "count": 1,
+      "elem_bits": 5,
+      "type": 2
+    },
+    {
+      "name": "snd_menu_master",
+      "index": 55,
+      "offset": 384243,
+      "bits": 5,
+      "count": 1,
+      "elem_bits": 5,
+      "type": 2
+    },
+    {
+      "name": "snd_menu_cinematic",
+      "index": 56,
+      "offset": 384248,
+      "bits": 5,
+      "count": 1,
+      "elem_bits": 5,
+      "type": 2
+    },
+    {
+      "name": "snd_menu_listen_level",
+      "index": 57,
+      "offset": 384253,
+      "bits": 1,
+      "count": 1,
+      "elem_bits": 1,
+      "type": 2
+    },
+    {
+      "name": "snd_menu_speaker_setup",
+      "index": 58,
+      "offset": 384254,
+      "bits": 2,
+      "count": 1,
+      "elem_bits": 2,
+      "type": 2
+    },
+    {
+      "name": "snd_console_config",
+      "index": 59,
+      "offset": 384256,
+      "bits": 64,
+      "count": 1,
+      "elem_bits": 64,
+      "type": 4
+    },
+    {
+      "name": "snd_speakerconfiguration",
+      "index": 60,
+      "offset": 384320,
+      "bits": 32,
+      "count": 1,
+      "elem_bits": 32,
+      "type": 2
+    },
+    {
+      "name": "snd_ps3_encodingformat",
+      "index": 61,
+      "offset": 384352,
+      "bits": 32,
+      "count": 1,
+      "elem_bits": 32,
+      "type": 2
+    },
+    {
+      "name": "snd_menu_headphones",
+      "index": 62,
+      "offset": 384384,
+      "bits": 32,
+      "count": 1,
+      "elem_bits": 32,
+      "type": 2
+    },
+    {
+      "name": "snd_menu_hearing_impaired",
+      "index": 63,
+      "offset": 384416,
+      "bits": 32,
+      "count": 1,
+      "elem_bits": 32,
+      "type": 2
+    },
+    {
+      "name": "cg_fov_default",
+      "index": 64,
+      "offset": 384448,
+      "bits": 32,
+      "count": 1,
+      "elem_bits": 32,
+      "type": 2
+    },
+    {
+      "name": "bestleague",
+      "index": 65,
+      "offset": 384480,
+      "bits": 184,
+      "count": 1,
+      "elem_bits": 184,
+      "type": 8,
+      "struct": 28
+    },
+    {
+      "name": "gamebookmarks",
+      "index": 66,
+      "offset": 384664,
+      "bits": 1024,
+      "count": 16,
+      "elem_bits": 64,
+      "type": 4
+    },
+    {
+      "name": "gamebookmarkindex",
+      "index": 67,
+      "offset": 385688,
+      "bits": 5,
+      "count": 1,
+      "elem_bits": 5,
+      "type": 2
+    },
+    {
+      "name": "sessionrejointimestamp",
+      "index": 68,
+      "offset": 385693,
+      "bits": 32,
+      "count": 1,
+      "elem_bits": 32,
+      "type": 2
+    },
+    {
+      "name": "sessionrejoinsessionsecid",
+      "index": 69,
+      "offset": 385725,
+      "bits": 64,
+      "count": 1,
+      "elem_bits": 64,
+      "type": 4
+    },
+    {
+      "name": "livestreamingauthusername",
+      "index": 70,
+      "offset": 385789,
+      "bits": 512,
+      "count": 1,
+      "elem_bits": 512,
+      "type": 7
+    },
+    {
+      "name": "livestreamingauthtoken",
+      "index": 71,
+      "offset": 386301,
+      "bits": 200,
+      "count": 1,
+      "elem_bits": 200,
+      "type": 7
+    },
+    {
+      "name": "prestigetokens",
+      "index": 72,
+      "offset": 386501,
+      "bits": 260,
+      "count": 20,
+      "elem_bits": 13,
+      "type": 8,
+      "struct": 29
+    },
+    {
+      "name": "motdversionviewed",
+      "index": 73,
+      "offset": 386761,
+      "bits": 32,
+      "count": 1,
+      "elem_bits": 32,
+      "type": 3
+    },
+    {
+      "name": "motdviewtime",
+      "index": 74,
+      "offset": 386793,
+      "bits": 32,
+      "count": 1,
+      "elem_bits": 32,
+      "type": 3
+    },
+    {
+      "name": "combattrainingwins",
+      "index": 75,
+      "offset": 386825,
+      "bits": 32,
+      "count": 1,
+      "elem_bits": 32,
+      "type": 3
+    },
+    {
+      "name": "doublexpgroups",
+      "index": 76,
+      "offset": 386857,
+      "bits": 64,
+      "count": 64,
+      "elem_bits": 1,
+      "type": 2
+    },
+    {
+      "name": "gfxdisplayinfo",
+      "index": 77,
+      "offset": 386921,
+      "bits": 4384,
+      "count": 1,
+      "elem_bits": 4384,
+      "type": 8,
+      "struct": 32
+    },
+    {
+      "name": "youtube",
+      "index": 78,
+      "offset": 391305,
+      "bits": 2400,
+      "count": 1,
+      "elem_bits": 2400,
+      "type": 8,
+      "struct": 33
+    },
+    {
+      "name": "elitestats",
+      "index": 79,
+      "offset": 393705,
+      "bits": 1027,
+      "count": 1,
+      "elem_bits": 1027,
+      "type": 8,
+      "struct": 34
+    },
+    {
+      "name": "dlc",
+      "index": 80,
+      "offset": 394732,
+      "bits": 160,
+      "count": 1,
+      "elem_bits": 160,
+      "type": 8,
+      "struct": 35
+    }
+  ],
+  "structs": [
+    {
+      "index": 0,
+      "name_hash": "A06419ED",
+      "bits": 394892,
+      "members": [
+        {
+          "name": "playerxuid",
+          "index": 0,
+          "offset": 0,
+          "bits": 64,
+          "count": 1,
+          "elem_bits": 64,
+          "type": 4
+        },
+        {
+          "name": "playerstatslist",
+          "index": 1,
+          "offset": 64,
+          "bits": 18384,
+          "count": 383,
+          "elem_bits": 48,
+          "type": 8,
+          "struct": 1
+        },
+        {
+          "name": "higheststats",
+          "index": 2,
+          "offset": 18448,
+          "bits": 144,
+          "count": 6,
+          "elem_bits": 24,
+          "type": 2
+        },
+        {
+          "name": "hashlen",
+          "index": 3,
+          "offset": 18592,
+          "bits": 32,
+          "count": 1,
+          "elem_bits": 32,
+          "type": 2
+        },
+        {
+          "name": "statshash",
+          "index": 4,
+          "offset": 18624,
+          "bits": 400,
+          "count": 50,
+          "elem_bits": 8,
+          "type": 0
+        },
+        {
+          "name": "recentearnings",
+          "index": 5,
+          "offset": 19024,
+          "bits": 250,
+          "count": 10,
+          "elem_bits": 25,
+          "type": 8,
+          "struct": 2
+        },
+        {
+          "name": "recenthitloccounts",
+          "index": 6,
+          "offset": 19274,
+          "bits": 3050,
+          "count": 10,
+          "elem_bits": 305,
+          "type": 8,
+          "struct": 3
+        },
+        {
+          "name": "recentscores",
+          "index": 7,
+          "offset": 22324,
+          "bits": 730,
+          "count": 10,
+          "elem_bits": 73,
+          "type": 8,
+          "struct": 4
+        },
+        {
+          "name": "afteractionreportstats",
+          "index": 8,
+          "offset": 23054,
+          "bits": 900,
+          "count": 1,
+          "elem_bits": 900,
+          "type": 8,
+          "struct": 5
+        },
+        {
+          "name": "currenthitlocationindex",
+          "index": 9,
+          "offset": 23954,
+          "bits": 4,
+          "count": 1,
+          "elem_bits": 4,
+          "type": 2
+        },
+        {
+          "name": "gamehistory",
+          "index": 10,
+          "offset": 23958,
+          "bits": 11216,
+          "count": 2,
+          "elem_bits": 5608,
+          "type": 8,
+          "struct": 9
+        },
+        {
+          "name": "probation",
+          "index": 11,
+          "offset": 35174,
+          "bits": 192,
+          "count": 2,
+          "elem_bits": 96,
+          "type": 8,
+          "struct": 10
+        },
+        {
+          "name": "playerstatsbygametype",
+          "index": 12,
+          "offset": 35366,
+          "bits": 39408,
+          "count": 24,
+          "elem_bits": 1642,
+          "type": 8,
+          "struct": 11
+        },
+        {
+          "name": "playerstatsbymap",
+          "index": 13,
+          "offset": 74774,
+          "bits": 240,
+          "count": 15,
+          "elem_bits": 16,
+          "type": 8,
+          "struct": 12
+        },
+        {
+          "name": "itemstats",
+          "index": 14,
+          "offset": 75014,
+          "bits": 237056,
+          "count": 256,
+          "elem_bits": 926,
+          "type": 8,
+          "struct": 14
+        },
+        {
+          "name": "groupstats",
+          "index": 15,
+          "offset": 312070,
+          "bits": 17280,
+          "count": 20,
+          "elem_bits": 864,
+          "type": 8,
+          "struct": 13
+        },
+        {
+          "name": "unlocks",
+          "index": 16,
+          "offset": 329350,
+          "bits": 256,
+          "count": 32,
+          "elem_bits": 8,
+          "type": 0
+        },
+        {
+          "name": "attachments",
+          "index": 17,
+          "offset": 329606,
+          "bits": 25056,
+          "count": 29,
+          "elem_bits": 864,
+          "type": 8,
+          "struct": 15
+        },
+        {
+          "name": "matches_lean_used",
+          "index": 18,
+          "offset": 354662,
+          "bits": 32,
+          "count": 1,
+          "elem_bits": 32,
+          "type": 2
+        },
+        {
+          "name": "weaponstats",
+          "index": 19,
+          "offset": 354694,
+          "bits": 6400,
+          "count": 64,
+          "elem_bits": 100,
+          "type": 8,
+          "struct": 16
+        },
+        {
+          "name": "publicmatchclasssetindex",
+          "index": 20,
+          "offset": 361094,
+          "bits": 4,
+          "count": 1,
+          "elem_bits": 4,
+          "type": 2
+        },
+        {
+          "name": "custommatchclasssetindex",
+          "index": 21,
+          "offset": 361098,
+          "bits": 4,
+          "count": 1,
+          "elem_bits": 4,
+          "type": 2
+        },
+        {
+          "name": "leaguematchclasssetindex",
+          "index": 22,
+          "offset": 361102,
+          "bits": 4,
+          "count": 1,
+          "elem_bits": 4,
+          "type": 2
+        },
+        {
+          "name": "cacloadouts",
+          "index": 23,
+          "offset": 361106,
+          "bits": 5539,
+          "count": 1,
+          "elem_bits": 5539,
+          "type": 8,
+          "struct": 18,
+          "named_by": "hash"
+        },
+        {
+          "name": "custommatchcacloadouts",
+          "index": 24,
+          "offset": 366645,
+          "bits": 2796,
+          "count": 1,
+          "elem_bits": 2796,
+          "type": 8,
+          "struct": 19
+        },
+        {
+          "name": "leaguecacloadouts",
+          "index": 25,
+          "offset": 369441,
+          "bits": 2796,
+          "count": 1,
+          "elem_bits": 2796,
+          "type": 8,
+          "struct": 19
+        },
+        {
+          "name": "skill_rating",
+          "index": 26,
+          "offset": 372237,
+          "bits": 32,
+          "count": 1,
+          "elem_bits": 32,
+          "type": 5
+        },
+        {
+          "name": "skill_variance",
+          "index": 27,
+          "offset": 372269,
+          "bits": 32,
+          "count": 1,
+          "elem_bits": 32,
+          "type": 5
+        },
+        {
+          "name": "gt_skill_rating",
+          "index": 28,
+          "offset": 372301,
+          "bits": 768,
+          "count": 24,
+          "elem_bits": 32,
+          "type": 5
+        },
+        {
+          "name": "gt_skill_variance",
+          "index": 29,
+          "offset": 373069,
+          "bits": 768,
+          "count": 24,
+          "elem_bits": 32,
+          "type": 5
+        },
+        {
+          "name": "activefriends",
+          "index": 30,
+          "offset": 373837,
+          "bits": 1664,
+          "count": 16,
+          "elem_bits": 104,
+          "type": 8,
+          "struct": 20
+        },
+        {
+          "name": "numactivefriends",
+          "index": 31,
+          "offset": 375501,
+          "bits": 5,
+          "count": 1,
+          "elem_bits": 5,
+          "type": 2
+        },
+        {
+          "name": "emblemstats",
+          "index": 32,
+          "offset": 375506,
+          "bits": 5008,
+          "count": 1,
+          "elem_bits": 5008,
+          "type": 8,
+          "struct": 23
+        },
+        {
+          "name": "clantagstats",
+          "index": 33,
+          "offset": 380514,
+          "bits": 76,
+          "count": 1,
+          "elem_bits": 76,
+          "type": 8,
+          "struct": 25
+        },
+        {
+          "name": "lastconsolesave",
+          "index": 34,
+          "offset": 380590,
+          "bits": 4,
+          "count": 1,
+          "elem_bits": 4,
+          "type": 2
+        },
+        {
+          "name": "consoleinfo",
+          "index": 35,
+          "offset": 380594,
+          "bits": 3200,
+          "count": 10,
+          "elem_bits": 320,
+          "type": 8,
+          "struct": 27
+        },
+        {
+          "name": "connectionid",
+          "index": 36,
+          "offset": 383794,
+          "bits": 64,
+          "count": 1,
+          "elem_bits": 64,
+          "type": 4
+        },
+        {
+          "name": "uploadbandwidth",
+          "index": 37,
+          "offset": 383858,
+          "bits": 32,
+          "count": 1,
+          "elem_bits": 32,
+          "type": 2
+        },
+        {
+          "name": "demonwareflags",
+          "index": 38,
+          "offset": 383890,
+          "bits": 256,
+          "count": 32,
+          "elem_bits": 8,
+          "type": 0
+        },
+        {
+          "name": "statresetnotification",
+          "index": 39,
+          "offset": 384146,
+          "bits": 64,
+          "count": 1,
+          "elem_bits": 64,
+          "type": 4
+        },
+        {
+          "name": "input_invertpitch",
+          "index": 40,
+          "offset": 384210,
+          "bits": 1,
+          "count": 1,
+          "elem_bits": 1,
+          "type": 2
+        },
+        {
+          "name": "gpad_rumble",
+          "index": 41,
+          "offset": 384211,
+          "bits": 1,
+          "count": 1,
+          "elem_bits": 1,
+          "type": 2
+        },
+        {
+          "name": "quick_launch_mode",
+          "index": 42,
+          "offset": 384212,
+          "bits": 2,
+          "count": 1,
+          "elem_bits": 2,
+          "type": 2
+        },
+        {
+          "name": "cg_mature",
+          "index": 43,
+          "offset": 384214,
+          "bits": 1,
+          "count": 1,
+          "elem_bits": 1,
+          "type": 2
+        },
+        {
+          "name": "input_autoaim",
+          "index": 44,
+          "offset": 384215,
+          "bits": 1,
+          "count": 1,
+          "elem_bits": 1,
+          "type": 2
+        },
+        {
+          "name": "cg_subtitles",
+          "index": 45,
+          "offset": 384216,
+          "bits": 1,
+          "count": 1,
+          "elem_bits": 1,
+          "type": 2
+        },
+        {
+          "name": "gpad_buttonsconfig",
+          "index": 46,
+          "offset": 384217,
+          "bits": 3,
+          "count": 1,
+          "elem_bits": 3,
+          "type": 2
+        },
+        {
+          "name": "gpad_sticksconfig",
+          "index": 47,
+          "offset": 384220,
+          "bits": 3,
+          "count": 1,
+          "elem_bits": 3,
+          "type": 2
+        },
+        {
+          "name": "team_indicator",
+          "index": 48,
+          "offset": 384223,
+          "bits": 2,
+          "count": 1,
+          "elem_bits": 2,
+          "type": 2
+        },
+        {
+          "name": "r_stereo3davailable",
+          "index": 49,
+          "offset": 384225,
+          "bits": 1,
+          "count": 1,
+          "elem_bits": 1,
+          "type": 2
+        },
+        {
+          "name": "r_stereo3don",
+          "index": 50,
+          "offset": 384226,
+          "bits": 1,
+          "count": 1,
+          "elem_bits": 1,
+          "type": 2
+        },
+        {
+          "name": "input_targetassist",
+          "index": 51,
+          "offset": 384227,
+          "bits": 1,
+          "count": 1,
+          "elem_bits": 1,
+          "type": 2
+        },
+        {
+          "name": "snd_menu_voice",
+          "index": 52,
+          "offset": 384228,
+          "bits": 5,
+          "count": 1,
+          "elem_bits": 5,
+          "type": 2
+        },
+        {
+          "name": "snd_menu_music",
+          "index": 53,
+          "offset": 384233,
+          "bits": 5,
+          "count": 1,
+          "elem_bits": 5,
+          "type": 2
+        },
+        {
+          "name": "snd_menu_sfx",
+          "index": 54,
+          "offset": 384238,
+          "bits": 5,
+          "count": 1,
+          "elem_bits": 5,
+          "type": 2
+        },
+        {
+          "name": "snd_menu_master",
+          "index": 55,
+          "offset": 384243,
+          "bits": 5,
+          "count": 1,
+          "elem_bits": 5,
+          "type": 2
+        },
+        {
+          "name": "snd_menu_cinematic",
+          "index": 56,
+          "offset": 384248,
+          "bits": 5,
+          "count": 1,
+          "elem_bits": 5,
+          "type": 2
+        },
+        {
+          "name": "snd_menu_listen_level",
+          "index": 57,
+          "offset": 384253,
+          "bits": 1,
+          "count": 1,
+          "elem_bits": 1,
+          "type": 2
+        },
+        {
+          "name": "snd_menu_speaker_setup",
+          "index": 58,
+          "offset": 384254,
+          "bits": 2,
+          "count": 1,
+          "elem_bits": 2,
+          "type": 2
+        },
+        {
+          "name": "snd_console_config",
+          "index": 59,
+          "offset": 384256,
+          "bits": 64,
+          "count": 1,
+          "elem_bits": 64,
+          "type": 4
+        },
+        {
+          "name": "snd_speakerconfiguration",
+          "index": 60,
+          "offset": 384320,
+          "bits": 32,
+          "count": 1,
+          "elem_bits": 32,
+          "type": 2
+        },
+        {
+          "name": "snd_ps3_encodingformat",
+          "index": 61,
+          "offset": 384352,
+          "bits": 32,
+          "count": 1,
+          "elem_bits": 32,
+          "type": 2
+        },
+        {
+          "name": "snd_menu_headphones",
+          "index": 62,
+          "offset": 384384,
+          "bits": 32,
+          "count": 1,
+          "elem_bits": 32,
+          "type": 2
+        },
+        {
+          "name": "snd_menu_hearing_impaired",
+          "index": 63,
+          "offset": 384416,
+          "bits": 32,
+          "count": 1,
+          "elem_bits": 32,
+          "type": 2
+        },
+        {
+          "name": "cg_fov_default",
+          "index": 64,
+          "offset": 384448,
+          "bits": 32,
+          "count": 1,
+          "elem_bits": 32,
+          "type": 2
+        },
+        {
+          "name": "bestleague",
+          "index": 65,
+          "offset": 384480,
+          "bits": 184,
+          "count": 1,
+          "elem_bits": 184,
+          "type": 8,
+          "struct": 28
+        },
+        {
+          "name": "gamebookmarks",
+          "index": 66,
+          "offset": 384664,
+          "bits": 1024,
+          "count": 16,
+          "elem_bits": 64,
+          "type": 4
+        },
+        {
+          "name": "gamebookmarkindex",
+          "index": 67,
+          "offset": 385688,
+          "bits": 5,
+          "count": 1,
+          "elem_bits": 5,
+          "type": 2
+        },
+        {
+          "name": "sessionrejointimestamp",
+          "index": 68,
+          "offset": 385693,
+          "bits": 32,
+          "count": 1,
+          "elem_bits": 32,
+          "type": 2
+        },
+        {
+          "name": "sessionrejoinsessionsecid",
+          "index": 69,
+          "offset": 385725,
+          "bits": 64,
+          "count": 1,
+          "elem_bits": 64,
+          "type": 4
+        },
+        {
+          "name": "livestreamingauthusername",
+          "index": 70,
+          "offset": 385789,
+          "bits": 512,
+          "count": 1,
+          "elem_bits": 512,
+          "type": 7
+        },
+        {
+          "name": "livestreamingauthtoken",
+          "index": 71,
+          "offset": 386301,
+          "bits": 200,
+          "count": 1,
+          "elem_bits": 200,
+          "type": 7
+        },
+        {
+          "name": "prestigetokens",
+          "index": 72,
+          "offset": 386501,
+          "bits": 260,
+          "count": 20,
+          "elem_bits": 13,
+          "type": 8,
+          "struct": 29
+        },
+        {
+          "name": "motdversionviewed",
+          "index": 73,
+          "offset": 386761,
+          "bits": 32,
+          "count": 1,
+          "elem_bits": 32,
+          "type": 3
+        },
+        {
+          "name": "motdviewtime",
+          "index": 74,
+          "offset": 386793,
+          "bits": 32,
+          "count": 1,
+          "elem_bits": 32,
+          "type": 3
+        },
+        {
+          "name": "combattrainingwins",
+          "index": 75,
+          "offset": 386825,
+          "bits": 32,
+          "count": 1,
+          "elem_bits": 32,
+          "type": 3
+        },
+        {
+          "name": "doublexpgroups",
+          "index": 76,
+          "offset": 386857,
+          "bits": 64,
+          "count": 64,
+          "elem_bits": 1,
+          "type": 2
+        },
+        {
+          "name": "gfxdisplayinfo",
+          "index": 77,
+          "offset": 386921,
+          "bits": 4384,
+          "count": 1,
+          "elem_bits": 4384,
+          "type": 8,
+          "struct": 32
+        },
+        {
+          "name": "youtube",
+          "index": 78,
+          "offset": 391305,
+          "bits": 2400,
+          "count": 1,
+          "elem_bits": 2400,
+          "type": 8,
+          "struct": 33
+        },
+        {
+          "name": "elitestats",
+          "index": 79,
+          "offset": 393705,
+          "bits": 1027,
+          "count": 1,
+          "elem_bits": 1027,
+          "type": 8,
+          "struct": 34
+        },
+        {
+          "name": "dlc",
+          "index": 80,
+          "offset": 394732,
+          "bits": 160,
+          "count": 1,
+          "elem_bits": 160,
+          "type": 8,
+          "struct": 35
+        }
+      ]
+    },
+    {
+      "index": 1,
+      "name_hash": "FFFFFFFF",
+      "bits": 48,
+      "members": [
+        {
+          "name": "statvalue",
+          "index": 0,
+          "offset": 0,
+          "bits": 32,
+          "count": 1,
+          "elem_bits": 32,
+          "type": 2
+        },
+        {
+          "name": "challengevalue",
+          "index": 1,
+          "offset": 32,
+          "bits": 16,
+          "count": 1,
+          "elem_bits": 16,
+          "type": 1
+        }
+      ]
+    },
+    {
+      "index": 2,
+      "name_hash": "FFFFFFFF",
+      "bits": 25,
+      "members": [
+        {
+          "name": "score",
+          "index": 0,
+          "offset": 0,
+          "bits": 24,
+          "count": 1,
+          "elem_bits": 24,
+          "type": 2
+        },
+        {
+          "name": "valid",
+          "index": 1,
+          "offset": 24,
+          "bits": 1,
+          "count": 1,
+          "elem_bits": 1,
+          "type": 2
+        }
+      ]
+    },
+    {
+      "index": 3,
+      "name_hash": "FFFFFFFF",
+      "bits": 305,
+      "members": [
+        {
+          "name": "hitlocations",
+          "index": 0,
+          "offset": 0,
+          "bits": 152,
+          "count": 19,
+          "elem_bits": 8,
+          "type": 0
+        },
+        {
+          "name": "criticalhitlocations",
+          "index": 1,
+          "offset": 152,
+          "bits": 152,
+          "count": 19,
+          "elem_bits": 8,
+          "type": 0
+        },
+        {
+          "name": "valid",
+          "index": 2,
+          "offset": 304,
+          "bits": 1,
+          "count": 1,
+          "elem_bits": 1,
+          "type": 2,
+          "named_by": "hash"
+        }
+      ]
+    },
+    {
+      "index": 4,
+      "name_hash": "FFFFFFFF",
+      "bits": 73,
+      "members": [
+        {
+          "name": "score",
+          "index": 0,
+          "offset": 0,
+          "bits": 24,
+          "count": 1,
+          "elem_bits": 24,
+          "type": 2,
+          "named_by": "hash"
+        },
+        {
+          "name": "kills",
+          "index": 1,
+          "offset": 24,
+          "bits": 16,
+          "count": 1,
+          "elem_bits": 16,
+          "type": 1,
+          "named_by": "hash"
+        },
+        {
+          "name": "deaths",
+          "index": 2,
+          "offset": 40,
+          "bits": 16,
+          "count": 1,
+          "elem_bits": 16,
+          "type": 1
+        },
+        {
+          "name": "gametype",
+          "index": 3,
+          "offset": 56,
+          "bits": 16,
+          "count": 1,
+          "elem_bits": 16,
+          "type": 1
+        },
+        {
+          "name": "valid",
+          "index": 4,
+          "offset": 72,
+          "bits": 1,
+          "count": 1,
+          "elem_bits": 1,
+          "type": 2,
+          "named_by": "hash"
+        }
+      ]
+    },
+    {
+      "index": 5,
+      "name_hash": "FFFFFFFF",
+      "bits": 900,
+      "members": [
+        {
+          "name": "valid",
+          "index": 0,
+          "offset": 0,
+          "bits": 1,
+          "count": 1,
+          "elem_bits": 1,
+          "type": 2,
+          "named_by": "hash"
+        },
+        {
+          "name": "privatematch",
+          "index": 1,
+          "offset": 1,
+          "bits": 1,
+          "count": 1,
+          "elem_bits": 1,
+          "type": 2
+        },
+        {
+          "name": "wagermatch",
+          "index": 2,
+          "offset": 2,
+          "bits": 1,
+          "count": 1,
+          "elem_bits": 1,
+          "type": 2
+        },
+        {
+          "name": "wagermatchfailed",
+          "index": 3,
+          "offset": 3,
+          "bits": 1,
+          "count": 1,
+          "elem_bits": 1,
+          "type": 2
+        },
+        {
+          "name": "xpearned",
+          "index": 4,
+          "offset": 4,
+          "bits": 16,
+          "count": 1,
+          "elem_bits": 16,
+          "type": 1
+        },
+        {
+          "name": "cpearned",
+          "index": 5,
+          "offset": 20,
+          "bits": 16,
+          "count": 1,
+          "elem_bits": 16,
+          "type": 1
+        },
+        {
+          "name": "matchbonus",
+          "index": 6,
+          "offset": 36,
+          "bits": 16,
+          "count": 1,
+          "elem_bits": 16,
+          "type": 1
+        },
+        {
+          "name": "miscbonus",
+          "index": 7,
+          "offset": 52,
+          "bits": 16,
+          "count": 1,
+          "elem_bits": 16,
+          "type": 1
+        },
+        {
+          "name": "gametype",
+          "index": 8,
+          "offset": 68,
+          "bits": 16,
+          "count": 1,
+          "elem_bits": 16,
+          "type": 1,
+          "named_by": "hash"
+        },
+        {
+          "name": "kills",
+          "index": 9,
+          "offset": 84,
+          "bits": 16,
+          "count": 1,
+          "elem_bits": 16,
+          "type": 1,
+          "named_by": "hash"
+        },
+        {
+          "name": "deaths",
+          "index": 10,
+          "offset": 100,
+          "bits": 16,
+          "count": 1,
+          "elem_bits": 16,
+          "type": 1,
+          "named_by": "hash"
+        },
+        {
+          "name": "bestkillstreak",
+          "index": 11,
+          "offset": 116,
+          "bits": 16,
+          "count": 1,
+          "elem_bits": 16,
+          "type": 1
+        },
+        {
+          "name": "headshots",
+          "index": 12,
+          "offset": 132,
+          "bits": 16,
+          "count": 1,
+          "elem_bits": 16,
+          "type": 1,
+          "named_by": "hash"
+        },
+        {
+          "name": "score",
+          "index": 13,
+          "offset": 148,
+          "bits": 16,
+          "count": 1,
+          "elem_bits": 16,
+          "type": 1,
+          "named_by": "hash"
+        },
+        {
+          "name": "nemesisrank",
+          "index": 14,
+          "offset": 164,
+          "bits": 16,
+          "count": 1,
+          "elem_bits": 16,
+          "type": 1
+        },
+        {
+          "name": "nemesisrankicon",
+          "index": 15,
+          "offset": 180,
+          "bits": 16,
+          "count": 1,
+          "elem_bits": 16,
+          "type": 1
+        },
+        {
+          "name": "nemesiskills",
+          "index": 16,
+          "offset": 196,
+          "bits": 16,
+          "count": 1,
+          "elem_bits": 16,
+          "type": 1
+        },
+        {
+          "name": "nemesiskilledby",
+          "index": 17,
+          "offset": 212,
+          "bits": 16,
+          "count": 1,
+          "elem_bits": 16,
+          "type": 1
+        },
+        {
+          "name": "nemesisname",
+          "index": 18,
+          "offset": 228,
+          "bits": 256,
+          "count": 1,
+          "elem_bits": 256,
+          "type": 7
+        },
+        {
+          "name": "nemesisxuid",
+          "index": 19,
+          "offset": 484,
+          "bits": 64,
+          "count": 1,
+          "elem_bits": 64,
+          "type": 4
+        },
+        {
+          "name": "bestweaponindex",
+          "index": 20,
+          "offset": 548,
+          "bits": 8,
+          "count": 1,
+          "elem_bits": 8,
+          "type": 0
+        },
+        {
+          "name": "bestweaponaccuracy",
+          "index": 21,
+          "offset": 556,
+          "bits": 16,
+          "count": 1,
+          "elem_bits": 16,
+          "type": 1
+        },
+        {
+          "name": "topweaponitemindex",
+          "index": 22,
+          "offset": 572,
+          "bits": 8,
+          "count": 1,
+          "elem_bits": 8,
+          "type": 0
+        },
+        {
+          "name": "topweaponkills",
+          "index": 23,
+          "offset": 580,
+          "bits": 16,
+          "count": 1,
+          "elem_bits": 16,
+          "type": 1
+        },
+        {
+          "name": "wagerawards",
+          "index": 24,
+          "offset": 596,
+          "bits": 48,
+          "count": 3,
+          "elem_bits": 16,
+          "type": 1
+        },
+        {
+          "name": "demofileid",
+          "index": 25,
+          "offset": 644,
+          "bits": 64,
+          "count": 1,
+          "elem_bits": 64,
+          "type": 4
+        },
+        {
+          "name": "leagueteamid",
+          "index": 26,
+          "offset": 708,
+          "bits": 64,
+          "count": 1,
+          "elem_bits": 64,
+          "type": 4
+        },
+        {
+          "name": "lobbypopup",
+          "index": 27,
+          "offset": 772,
+          "bits": 128,
+          "count": 1,
+          "elem_bits": 128,
+          "type": 7
+        }
+      ]
+    },
+    {
+      "index": 6,
+      "name_hash": "FFFFFFFF",
+      "bits": 144,
+      "members": [
+        {
+          "name": "started",
+          "index": 0,
+          "offset": 0,
+          "bits": 24,
+          "count": 1,
+          "elem_bits": 24,
+          "type": 2
+        },
+        {
+          "name": "quit",
+          "index": 1,
+          "offset": 24,
+          "bits": 24,
+          "count": 1,
+          "elem_bits": 24,
+          "type": 2
+        },
+        {
+          "name": "dashboard",
+          "index": 2,
+          "offset": 48,
+          "bits": 24,
+          "count": 1,
+          "elem_bits": 24,
+          "type": 2
+        },
+        {
+          "name": "timeout",
+          "index": 3,
+          "offset": 72,
+          "bits": 24,
+          "count": 1,
+          "elem_bits": 24,
+          "type": 2
+        },
+        {
+          "name": "kicked",
+          "index": 4,
+          "offset": 96,
+          "bits": 24,
+          "count": 1,
+          "elem_bits": 24,
+          "type": 2
+        },
+        {
+          "name": "completed",
+          "index": 5,
+          "offset": 120,
+          "bits": 24,
+          "count": 1,
+          "elem_bits": 24,
+          "type": 2
+        }
+      ]
+    },
+    {
+      "index": 7,
+      "name_hash": "FFFFFFFF",
+      "bits": 288,
+      "members": [
+        {
+          "name": "played",
+          "index": 0,
+          "offset": 0,
+          "bits": 144,
+          "count": 1,
+          "elem_bits": 144,
+          "type": 8,
+          "struct": 6
+        },
+        {
+          "name": "hosted",
+          "index": 1,
+          "offset": 144,
+          "bits": 144,
+          "count": 1,
+          "elem_bits": 144,
+          "type": 8,
+          "struct": 6
+        }
+      ]
+    },
+    {
+      "index": 8,
+      "name_hash": "FFFFFFFF",
+      "bits": 166,
+      "members": [
+        {
+          "name": "startingtime",
+          "index": 0,
+          "offset": 0,
+          "bits": 32,
+          "count": 1,
+          "elem_bits": 32,
+          "type": 2
+        },
+        {
+          "name": "endingtime",
+          "index": 1,
+          "offset": 32,
+          "bits": 32,
+          "count": 1,
+          "elem_bits": 32,
+          "type": 2
+        },
+        {
+          "name": "score",
+          "index": 2,
+          "offset": 64,
+          "bits": 24,
+          "count": 1,
+          "elem_bits": 24,
+          "type": 2,
+          "named_by": "hash"
+        },
+        {
+          "name": "scoreboardposition",
+          "index": 3,
+          "offset": 88,
+          "bits": 5,
+          "count": 1,
+          "elem_bits": 5,
+          "type": 2
+        },
+        {
+          "name": "kills",
+          "index": 4,
+          "offset": 93,
+          "bits": 16,
+          "count": 1,
+          "elem_bits": 16,
+          "type": 1,
+          "named_by": "hash"
+        },
+        {
+          "name": "deaths",
+          "index": 5,
+          "offset": 109,
+          "bits": 16,
+          "count": 1,
+          "elem_bits": 16,
+          "type": 1,
+          "named_by": "hash"
+        },
+        {
+          "name": "teamscoreratio",
+          "index": 6,
+          "offset": 125,
+          "bits": 32,
+          "count": 1,
+          "elem_bits": 32,
+          "type": 5
+        },
+        {
+          "name": "gametype",
+          "index": 7,
+          "offset": 157,
+          "bits": 5,
+          "count": 1,
+          "elem_bits": 5,
+          "type": 2,
+          "named_by": "hash"
+        },
+        {
+          "name": "quittype",
+          "index": 8,
+          "offset": 162,
+          "bits": 3,
+          "count": 1,
+          "elem_bits": 3,
+          "type": 2
+        },
+        {
+          "name": "forgiven",
+          "index": 9,
+          "offset": 165,
+          "bits": 1,
+          "count": 1,
+          "elem_bits": 1,
+          "type": 2
+        }
+      ]
+    },
+    {
+      "index": 9,
+      "name_hash": "FFFFFFFF",
+      "bits": 5608,
+      "members": [
+        {
+          "name": "modehistory",
+          "index": 0,
+          "offset": 0,
+          "bits": 288,
+          "count": 1,
+          "elem_bits": 288,
+          "type": 8,
+          "struct": 7
+        },
+        {
+          "name": "matchhistory",
+          "index": 1,
+          "offset": 288,
+          "bits": 5312,
+          "count": 32,
+          "elem_bits": 166,
+          "type": 8,
+          "struct": 8
+        },
+        {
+          "name": "currentmatchhistoryindex",
+          "index": 2,
+          "offset": 5600,
+          "bits": 8,
+          "count": 1,
+          "elem_bits": 8,
+          "type": 0
+        }
+      ]
+    },
+    {
+      "index": 10,
+      "name_hash": "FFFFFFFF",
+      "bits": 96,
+      "members": [
+        {
+          "name": "version",
+          "index": 0,
+          "offset": 0,
+          "bits": 32,
+          "count": 1,
+          "elem_bits": 32,
+          "type": 2
+        },
+        {
+          "name": "timewhenprobationisdone",
+          "index": 1,
+          "offset": 32,
+          "bits": 32,
+          "count": 1,
+          "elem_bits": 32,
+          "type": 2
+        },
+        {
+          "name": "count",
+          "index": 2,
+          "offset": 64,
+          "bits": 32,
+          "count": 1,
+          "elem_bits": 32,
+          "type": 2
+        }
+      ]
+    },
+    {
+      "index": 11,
+      "name_hash": "FFFFFFFF",
+      "bits": 1642,
+      "members": [
+        {
+          "name": "assists",
+          "index": 0,
+          "offset": 0,
+          "bits": 48,
+          "count": 1,
+          "elem_bits": 48,
+          "type": 8,
+          "struct": 1
+        },
+        {
+          "name": "cur_win_streak",
+          "index": 1,
+          "offset": 48,
+          "bits": 48,
+          "count": 1,
+          "elem_bits": 48,
+          "type": 8,
+          "struct": 1
+        },
+        {
+          "name": "crush",
+          "index": 2,
+          "offset": 96,
+          "bits": 48,
+          "count": 1,
+          "elem_bits": 48,
+          "type": 8,
+          "struct": 1
+        },
+        {
+          "name": "deaths",
+          "index": 3,
+          "offset": 144,
+          "bits": 48,
+          "count": 1,
+          "elem_bits": 48,
+          "type": 8,
+          "struct": 1,
+          "named_by": "hash"
+        },
+        {
+          "name": "defends",
+          "index": 4,
+          "offset": 192,
+          "bits": 48,
+          "count": 1,
+          "elem_bits": 48,
+          "type": 8,
+          "struct": 1
+        },
+        {
+          "name": "kdratio",
+          "index": 5,
+          "offset": 240,
+          "bits": 48,
+          "count": 1,
+          "elem_bits": 48,
+          "type": 8,
+          "struct": 1
+        },
+        {
+          "name": "kills",
+          "index": 6,
+          "offset": 288,
+          "bits": 48,
+          "count": 1,
+          "elem_bits": 48,
+          "type": 8,
+          "struct": 1,
+          "named_by": "hash"
+        },
+        {
+          "name": "kill_streak",
+          "index": 7,
+          "offset": 336,
+          "bits": 48,
+          "count": 1,
+          "elem_bits": 48,
+          "type": 8,
+          "struct": 1
+        },
+        {
+          "name": "losses",
+          "index": 8,
+          "offset": 384,
+          "bits": 48,
+          "count": 1,
+          "elem_bits": 48,
+          "type": 8,
+          "struct": 1
+        },
+        {
+          "name": "offends",
+          "index": 9,
+          "offset": 432,
+          "bits": 48,
+          "count": 1,
+          "elem_bits": 48,
+          "type": 8,
+          "struct": 1
+        },
+        {
+          "name": "score",
+          "index": 10,
+          "offset": 480,
+          "bits": 48,
+          "count": 1,
+          "elem_bits": 48,
+          "type": 8,
+          "struct": 1,
+          "named_by": "hash"
+        },
+        {
+          "name": "ties",
+          "index": 11,
+          "offset": 528,
+          "bits": 48,
+          "count": 1,
+          "elem_bits": 48,
+          "type": 8,
+          "struct": 1
+        },
+        {
+          "name": "time_played_total",
+          "index": 12,
+          "offset": 576,
+          "bits": 48,
+          "count": 1,
+          "elem_bits": 48,
+          "type": 8,
+          "struct": 1
+        },
+        {
+          "name": "top3",
+          "index": 13,
+          "offset": 624,
+          "bits": 48,
+          "count": 1,
+          "elem_bits": 48,
+          "type": 8,
+          "struct": 1
+        },
+        {
+          "name": "top3team",
+          "index": 14,
+          "offset": 672,
+          "bits": 48,
+          "count": 1,
+          "elem_bits": 48,
+          "type": 8,
+          "struct": 1
+        },
+        {
+          "name": "topplayer",
+          "index": 15,
+          "offset": 720,
+          "bits": 48,
+          "count": 1,
+          "elem_bits": 48,
+          "type": 8,
+          "struct": 1
+        },
+        {
+          "name": "wins",
+          "index": 16,
+          "offset": 768,
+          "bits": 48,
+          "count": 1,
+          "elem_bits": 48,
+          "type": 8,
+          "struct": 1,
+          "named_by": "hash"
+        },
+        {
+          "name": "win_streak",
+          "index": 17,
+          "offset": 816,
+          "bits": 48,
+          "count": 1,
+          "elem_bits": 48,
+          "type": 8,
+          "struct": 1
+        },
+        {
+          "name": "wlratio",
+          "index": 18,
+          "offset": 864,
+          "bits": 48,
+          "count": 1,
+          "elem_bits": 48,
+          "type": 8,
+          "struct": 1
+        },
+        {
+          "name": "challenge1",
+          "index": 19,
+          "offset": 912,
+          "bits": 48,
+          "count": 1,
+          "elem_bits": 48,
+          "type": 8,
+          "struct": 1
+        },
+        {
+          "name": "challenge2",
+          "index": 20,
+          "offset": 960,
+          "bits": 48,
+          "count": 1,
+          "elem_bits": 48,
+          "type": 8,
+          "struct": 1
+        },
+        {
+          "name": "challenge3",
+          "index": 21,
+          "offset": 1008,
+          "bits": 48,
+          "count": 1,
+          "elem_bits": 48,
+          "type": 8,
+          "struct": 1
+        },
+        {
+          "name": "challenge4",
+          "index": 22,
+          "offset": 1056,
+          "bits": 48,
+          "count": 1,
+          "elem_bits": 48,
+          "type": 8,
+          "struct": 1
+        },
+        {
+          "name": "challenge5",
+          "index": 23,
+          "offset": 1104,
+          "bits": 48,
+          "count": 1,
+          "elem_bits": 48,
+          "type": 8,
+          "struct": 1
+        },
+        {
+          "name": "challenge6",
+          "index": 24,
+          "offset": 1152,
+          "bits": 48,
+          "count": 1,
+          "elem_bits": 48,
+          "type": 8,
+          "struct": 1
+        },
+        {
+          "name": "challenge7",
+          "index": 25,
+          "offset": 1200,
+          "bits": 48,
+          "count": 1,
+          "elem_bits": 48,
+          "type": 8,
+          "struct": 1
+        },
+        {
+          "name": "challenge8",
+          "index": 26,
+          "offset": 1248,
+          "bits": 48,
+          "count": 1,
+          "elem_bits": 48,
+          "type": 8,
+          "struct": 1
+        },
+        {
+          "name": "challenge9",
+          "index": 27,
+          "offset": 1296,
+          "bits": 48,
+          "count": 1,
+          "elem_bits": 48,
+          "type": 8,
+          "struct": 1
+        },
+        {
+          "name": "challenge10",
+          "index": 28,
+          "offset": 1344,
+          "bits": 48,
+          "count": 1,
+          "elem_bits": 48,
+          "type": 8,
+          "struct": 1
+        },
+        {
+          "name": "prevscores",
+          "index": 29,
+          "offset": 1392,
+          "bits": 250,
+          "count": 10,
+          "elem_bits": 25,
+          "type": 8,
+          "struct": 2
+        }
+      ]
+    },
+    {
+      "index": 12,
+      "name_hash": "FFFFFFFF",
+      "bits": 16,
+      "members": [
+        {
+          "name": "vote_succeeded",
+          "index": 0,
+          "offset": 0,
+          "bits": 16,
+          "count": 1,
+          "elem_bits": 16,
+          "type": 1
+        }
+      ]
+    },
+    {
+      "index": 13,
+      "name_hash": "FFFFFFFF",
+      "bits": 864,
+      "members": [
+        {
+          "name": "stats",
+          "index": 0,
+          "offset": 0,
+          "bits": 864,
+          "count": 18,
+          "elem_bits": 48,
+          "type": 8,
+          "struct": 1
+        }
+      ]
+    },
+    {
+      "index": 14,
+      "name_hash": "FFFFFFFF",
+      "bits": 926,
+      "members": [
+        {
+          "name": "purchased",
+          "index": 0,
+          "offset": 0,
+          "bits": 1,
+          "count": 1,
+          "elem_bits": 1,
+          "type": 2
+        },
+        {
+          "name": "markedold",
+          "index": 1,
+          "offset": 1,
+          "bits": 1,
+          "count": 1,
+          "elem_bits": 1,
+          "type": 2
+        },
+        {
+          "name": "isproversionunlocked",
+          "index": 2,
+          "offset": 2,
+          "bits": 3,
+          "count": 3,
+          "elem_bits": 1,
+          "type": 2
+        },
+        {
+          "name": "stats",
+          "index": 3,
+          "offset": 5,
+          "bits": 864,
+          "count": 18,
+          "elem_bits": 48,
+          "type": 8,
+          "struct": 1,
+          "named_by": "hash"
+        },
+        {
+          "name": "attachmentmarkedold",
+          "index": 4,
+          "offset": 869,
+          "bits": 29,
+          "count": 29,
+          "elem_bits": 1,
+          "type": 2
+        },
+        {
+          "name": "xp",
+          "index": 5,
+          "offset": 898,
+          "bits": 24,
+          "count": 1,
+          "elem_bits": 24,
+          "type": 2
+        },
+        {
+          "name": "plevel",
+          "index": 6,
+          "offset": 922,
+          "bits": 4,
+          "count": 1,
+          "elem_bits": 4,
+          "type": 2
+        }
+      ]
+    },
+    {
+      "index": 15,
+      "name_hash": "FFFFFFFF",
+      "bits": 864,
+      "members": [
+        {
+          "name": "stats",
+          "index": 0,
+          "offset": 0,
+          "bits": 864,
+          "count": 18,
+          "elem_bits": 48,
+          "type": 8,
+          "struct": 1,
+          "named_by": "hash"
+        }
+      ]
+    },
+    {
+      "index": 16,
+      "name_hash": "FFFFFFFF",
+      "bits": 100,
+      "members": [
+        {
+          "name": "optionmarkedasold",
+          "index": 0,
+          "offset": 0,
+          "bits": 100,
+          "count": 100,
+          "elem_bits": 1,
+          "type": 2
+        }
+      ]
+    },
+    {
+      "index": 17,
+      "name_hash": "A0641AD1",
+      "bits": 420,
+      "members": [
+        {
+          "name": null,
+          "index": 0,
+          "offset": 0,
+          "bits": 8,
+          "count": 1,
+          "elem_bits": 8,
+          "type": 0
+        },
+        {
+          "name": "primaryattachmenttop",
+          "index": 1,
+          "offset": 8,
+          "bits": 8,
+          "count": 1,
+          "elem_bits": 8,
+          "type": 0,
+          "named_by": "hash"
+        },
+        {
+          "name": "primaryattachmentbottom",
+          "index": 2,
+          "offset": 16,
+          "bits": 8,
+          "count": 1,
+          "elem_bits": 8,
+          "type": 0,
+          "named_by": "hash"
+        },
+        {
+          "name": "primaryattachmenttrigger",
+          "index": 3,
+          "offset": 24,
+          "bits": 8,
+          "count": 1,
+          "elem_bits": 8,
+          "type": 0,
+          "named_by": "hash"
+        },
+        {
+          "name": "primaryattachmentmuzzle",
+          "index": 4,
+          "offset": 32,
+          "bits": 8,
+          "count": 1,
+          "elem_bits": 8,
+          "type": 0,
+          "named_by": "hash"
+        },
+        {
+          "name": "primaryattachmentgunperk",
+          "index": 5,
+          "offset": 40,
+          "bits": 8,
+          "count": 1,
+          "elem_bits": 8,
+          "type": 0,
+          "named_by": "hash"
+        },
+        {
+          "name": "primarycamo",
+          "index": 6,
+          "offset": 48,
+          "bits": 8,
+          "count": 1,
+          "elem_bits": 8,
+          "type": 0,
+          "named_by": "hash"
+        },
+        {
+          "name": "primaryreticle",
+          "index": 7,
+          "offset": 56,
+          "bits": 8,
+          "count": 1,
+          "elem_bits": 8,
+          "type": 0,
+          "named_by": "hash"
+        },
+        {
+          "name": "primaryreticlecolor",
+          "index": 8,
+          "offset": 64,
+          "bits": 8,
+          "count": 1,
+          "elem_bits": 8,
+          "type": 0,
+          "named_by": "hash"
+        },
+        {
+          "name": "primarylens",
+          "index": 9,
+          "offset": 72,
+          "bits": 8,
+          "count": 1,
+          "elem_bits": 8,
+          "type": 0,
+          "named_by": "hash"
+        },
+        {
+          "name": "primarytag",
+          "index": 10,
+          "offset": 80,
+          "bits": 8,
+          "count": 1,
+          "elem_bits": 8,
+          "type": 0,
+          "named_by": "hash"
+        },
+        {
+          "name": "primaryemblem",
+          "index": 11,
+          "offset": 88,
+          "bits": 8,
+          "count": 1,
+          "elem_bits": 8,
+          "type": 0,
+          "named_by": "hash"
+        },
+        {
+          "name": "primaryattachmentorder1",
+          "index": 12,
+          "offset": 96,
+          "bits": 3,
+          "count": 1,
+          "elem_bits": 3,
+          "type": 3,
+          "named_by": "hash"
+        },
+        {
+          "name": "primaryattachmentorder2",
+          "index": 13,
+          "offset": 99,
+          "bits": 3,
+          "count": 1,
+          "elem_bits": 3,
+          "type": 3,
+          "named_by": "hash"
+        },
+        {
+          "name": "primaryattachmentorder3",
+          "index": 14,
+          "offset": 102,
+          "bits": 3,
+          "count": 1,
+          "elem_bits": 3,
+          "type": 3,
+          "named_by": "hash"
+        },
+        {
+          "name": "primaryattachmentorder4",
+          "index": 15,
+          "offset": 105,
+          "bits": 3,
+          "count": 1,
+          "elem_bits": 3,
+          "type": 3,
+          "named_by": "hash"
+        },
+        {
+          "name": "primaryattachmentorder5",
+          "index": 16,
+          "offset": 108,
+          "bits": 3,
+          "count": 1,
+          "elem_bits": 3,
+          "type": 3,
+          "named_by": "hash"
+        },
+        {
+          "name": null,
+          "index": 17,
+          "offset": 111,
+          "bits": 8,
+          "count": 1,
+          "elem_bits": 8,
+          "type": 0
+        },
+        {
+          "name": "secondaryattachmenttop",
+          "index": 18,
+          "offset": 119,
+          "bits": 8,
+          "count": 1,
+          "elem_bits": 8,
+          "type": 0,
+          "named_by": "hash"
+        },
+        {
+          "name": "secondaryattachmentbottom",
+          "index": 19,
+          "offset": 127,
+          "bits": 8,
+          "count": 1,
+          "elem_bits": 8,
+          "type": 0,
+          "named_by": "hash"
+        },
+        {
+          "name": "secondaryattachmenttrigger",
+          "index": 20,
+          "offset": 135,
+          "bits": 8,
+          "count": 1,
+          "elem_bits": 8,
+          "type": 0,
+          "named_by": "hash"
+        },
+        {
+          "name": "secondaryattachmentmuzzle",
+          "index": 21,
+          "offset": 143,
+          "bits": 8,
+          "count": 1,
+          "elem_bits": 8,
+          "type": 0,
+          "named_by": "hash"
+        },
+        {
+          "name": "secondaryattachmentgunperk",
+          "index": 22,
+          "offset": 151,
+          "bits": 8,
+          "count": 1,
+          "elem_bits": 8,
+          "type": 0,
+          "named_by": "hash"
+        },
+        {
+          "name": "secondarycamo",
+          "index": 23,
+          "offset": 159,
+          "bits": 8,
+          "count": 1,
+          "elem_bits": 8,
+          "type": 0,
+          "named_by": "hash"
+        },
+        {
+          "name": "secondaryreticle",
+          "index": 24,
+          "offset": 167,
+          "bits": 8,
+          "count": 1,
+          "elem_bits": 8,
+          "type": 0,
+          "named_by": "hash"
+        },
+        {
+          "name": "secondaryreticlecolor",
+          "index": 25,
+          "offset": 175,
+          "bits": 8,
+          "count": 1,
+          "elem_bits": 8,
+          "type": 0,
+          "named_by": "hash"
+        },
+        {
+          "name": "secondarylens",
+          "index": 26,
+          "offset": 183,
+          "bits": 8,
+          "count": 1,
+          "elem_bits": 8,
+          "type": 0,
+          "named_by": "hash"
+        },
+        {
+          "name": "secondarytag",
+          "index": 27,
+          "offset": 191,
+          "bits": 8,
+          "count": 1,
+          "elem_bits": 8,
+          "type": 0,
+          "named_by": "hash"
+        },
+        {
+          "name": "secondaryemblem",
+          "index": 28,
+          "offset": 199,
+          "bits": 8,
+          "count": 1,
+          "elem_bits": 8,
+          "type": 0,
+          "named_by": "hash"
+        },
+        {
+          "name": "secondaryattachmentorder1",
+          "index": 29,
+          "offset": 207,
+          "bits": 3,
+          "count": 1,
+          "elem_bits": 3,
+          "type": 3,
+          "named_by": "hash"
+        },
+        {
+          "name": "secondaryattachmentorder2",
+          "index": 30,
+          "offset": 210,
+          "bits": 3,
+          "count": 1,
+          "elem_bits": 3,
+          "type": 3,
+          "named_by": "hash"
+        },
+        {
+          "name": "secondaryattachmentorder3",
+          "index": 31,
+          "offset": 213,
+          "bits": 3,
+          "count": 1,
+          "elem_bits": 3,
+          "type": 3,
+          "named_by": "hash"
+        },
+        {
+          "name": "secondaryattachmentorder4",
+          "index": 32,
+          "offset": 216,
+          "bits": 3,
+          "count": 1,
+          "elem_bits": 3,
+          "type": 3,
+          "named_by": "hash"
+        },
+        {
+          "name": "secondaryattachmentorder5",
+          "index": 33,
+          "offset": 219,
+          "bits": 3,
+          "count": 1,
+          "elem_bits": 3,
+          "type": 3,
+          "named_by": "hash"
+        },
+        {
+          "name": null,
+          "index": 34,
+          "offset": 222,
+          "bits": 8,
+          "count": 1,
+          "elem_bits": 8,
+          "type": 0
+        },
+        {
+          "name": "specialty2",
+          "index": 35,
+          "offset": 230,
+          "bits": 8,
+          "count": 1,
+          "elem_bits": 8,
+          "type": 0,
+          "named_by": "hash"
+        },
+        {
+          "name": "specialty3",
+          "index": 36,
+          "offset": 238,
+          "bits": 8,
+          "count": 1,
+          "elem_bits": 8,
+          "type": 0,
+          "named_by": "hash"
+        },
+        {
+          "name": "specialty4",
+          "index": 37,
+          "offset": 246,
+          "bits": 8,
+          "count": 1,
+          "elem_bits": 8,
+          "type": 0,
+          "named_by": "hash"
+        },
+        {
+          "name": "specialty5",
+          "index": 38,
+          "offset": 254,
+          "bits": 8,
+          "count": 1,
+          "elem_bits": 8,
+          "type": 0,
+          "named_by": "hash"
+        },
+        {
+          "name": "specialty6",
+          "index": 39,
+          "offset": 262,
+          "bits": 8,
+          "count": 1,
+          "elem_bits": 8,
+          "type": 0,
+          "named_by": "hash"
+        },
+        {
+          "name": null,
+          "index": 40,
+          "offset": 270,
+          "bits": 8,
+          "count": 1,
+          "elem_bits": 8,
+          "type": 0
+        },
+        {
+          "name": "primarygrenadecount",
+          "index": 41,
+          "offset": 278,
+          "bits": 8,
+          "count": 1,
+          "elem_bits": 8,
+          "type": 0,
+          "named_by": "hash"
+        },
+        {
+          "name": "primarygrenadestatus1",
+          "index": 42,
+          "offset": 286,
+          "bits": 1,
+          "count": 1,
+          "elem_bits": 1,
+          "type": 3,
+          "named_by": "hash"
+        },
+        {
+          "name": "primarygrenadestatus2",
+          "index": 43,
+          "offset": 287,
+          "bits": 1,
+          "count": 1,
+          "elem_bits": 1,
+          "type": 3,
+          "named_by": "hash"
+        },
+        {
+          "name": "primarygrenadestatus3",
+          "index": 44,
+          "offset": 288,
+          "bits": 1,
+          "count": 1,
+          "elem_bits": 1,
+          "type": 3,
+          "named_by": "hash"
+        },
+        {
+          "name": null,
+          "index": 45,
+          "offset": 289,
+          "bits": 8,
+          "count": 1,
+          "elem_bits": 8,
+          "type": 0
+        },
+        {
+          "name": "specialgrenadecount",
+          "index": 46,
+          "offset": 297,
+          "bits": 8,
+          "count": 1,
+          "elem_bits": 8,
+          "type": 0,
+          "named_by": "hash"
+        },
+        {
+          "name": "specialgrenadestatus1",
+          "index": 47,
+          "offset": 305,
+          "bits": 1,
+          "count": 1,
+          "elem_bits": 1,
+          "type": 3,
+          "named_by": "hash"
+        },
+        {
+          "name": "specialgrenadestatus2",
+          "index": 48,
+          "offset": 306,
+          "bits": 1,
+          "count": 1,
+          "elem_bits": 1,
+          "type": 3,
+          "named_by": "hash"
+        },
+        {
+          "name": "specialgrenadestatus3",
+          "index": 49,
+          "offset": 307,
+          "bits": 1,
+          "count": 1,
+          "elem_bits": 1,
+          "type": 3,
+          "named_by": "hash"
+        },
+        {
+          "name": null,
+          "index": 50,
+          "offset": 308,
+          "bits": 8,
+          "count": 1,
+          "elem_bits": 8,
+          "type": 0
+        },
+        {
+          "name": "equipmentcount",
+          "index": 51,
+          "offset": 316,
+          "bits": 8,
+          "count": 1,
+          "elem_bits": 8,
+          "type": 0,
+          "named_by": "hash"
+        },
+        {
+          "name": "equipment2",
+          "index": 52,
+          "offset": 324,
+          "bits": 8,
+          "count": 1,
+          "elem_bits": 8,
+          "type": 0,
+          "named_by": "hash"
+        },
+        {
+          "name": "equipment2count",
+          "index": 53,
+          "offset": 332,
+          "bits": 8,
+          "count": 1,
+          "elem_bits": 8,
+          "type": 0,
+          "named_by": "hash"
+        },
+        {
+          "name": null,
+          "index": 54,
+          "offset": 340,
+          "bits": 8,
+          "count": 1,
+          "elem_bits": 8,
+          "type": 0
+        },
+        {
+          "name": null,
+          "index": 55,
+          "offset": 348,
+          "bits": 8,
+          "count": 1,
+          "elem_bits": 8,
+          "type": 0
+        },
+        {
+          "name": null,
+          "index": 56,
+          "offset": 356,
+          "bits": 8,
+          "count": 1,
+          "elem_bits": 8,
+          "type": 0
+        },
+        {
+          "name": "primaryattachment1",
+          "index": 57,
+          "offset": 364,
+          "bits": 8,
+          "count": 1,
+          "elem_bits": 8,
+          "type": 3,
+          "named_by": "hash"
+        },
+        {
+          "name": "primaryattachment2",
+          "index": 58,
+          "offset": 372,
+          "bits": 8,
+          "count": 1,
+          "elem_bits": 8,
+          "type": 3,
+          "named_by": "hash"
+        },
+        {
+          "name": "primaryattachment3",
+          "index": 59,
+          "offset": 380,
+          "bits": 8,
+          "count": 1,
+          "elem_bits": 8,
+          "type": 3,
+          "named_by": "hash"
+        },
+        {
+          "name": "secondaryattachment1",
+          "index": 60,
+          "offset": 388,
+          "bits": 8,
+          "count": 1,
+          "elem_bits": 8,
+          "type": 3,
+          "named_by": "hash"
+        },
+        {
+          "name": "secondaryattachment2",
+          "index": 61,
+          "offset": 396,
+          "bits": 8,
+          "count": 1,
+          "elem_bits": 8,
+          "type": 3,
+          "named_by": "hash"
+        },
+        {
+          "name": "secondaryattachment3",
+          "index": 62,
+          "offset": 404,
+          "bits": 8,
+          "count": 1,
+          "elem_bits": 8,
+          "type": 3,
+          "named_by": "hash"
+        },
+        {
+          "name": "knifecamo",
+          "index": 63,
+          "offset": 412,
+          "bits": 8,
+          "count": 1,
+          "elem_bits": 8,
+          "type": 0,
+          "named_by": "hash"
+        }
+      ]
+    },
+    {
+      "index": 18,
+      "name_hash": "A0642C01",
+      "bits": 5539,
+      "members": [
+        {
+          "name": "customclass",
+          "index": 0,
+          "offset": 0,
+          "bits": 4200,
+          "count": 10,
+          "elem_bits": 420,
+          "type": 8,
+          "struct": 17,
+          "named_by": "hash"
+        },
+        {
+          "name": "customclassname",
+          "index": 1,
+          "offset": 4200,
+          "bits": 1280,
+          "count": 10,
+          "elem_bits": 128,
+          "type": 7,
+          "named_by": "hash"
+        },
+        {
+          "name": null,
+          "index": 2,
+          "offset": 5480,
+          "bits": 8,
+          "count": 1,
+          "elem_bits": 8,
+          "type": 0
+        },
+        {
+          "name": null,
+          "index": 3,
+          "offset": 5488,
+          "bits": 8,
+          "count": 1,
+          "elem_bits": 8,
+          "type": 0
+        },
+        {
+          "name": null,
+          "index": 4,
+          "offset": 5496,
+          "bits": 8,
+          "count": 1,
+          "elem_bits": 8,
+          "type": 0
+        },
+        {
+          "name": "killstreak4",
+          "index": 5,
+          "offset": 5504,
+          "bits": 8,
+          "count": 1,
+          "elem_bits": 8,
+          "type": 0,
+          "named_by": "hash"
+        },
+        {
+          "name": "killstreak5",
+          "index": 6,
+          "offset": 5512,
+          "bits": 8,
+          "count": 1,
+          "elem_bits": 8,
+          "type": 0,
+          "named_by": "hash"
+        },
+        {
+          "name": "killstreak6",
+          "index": 7,
+          "offset": 5520,
+          "bits": 8,
+          "count": 1,
+          "elem_bits": 8,
+          "type": 0,
+          "named_by": "hash"
+        },
+        {
+          "name": "resetwarningdisplayed",
+          "index": 8,
+          "offset": 5528,
+          "bits": 1,
+          "count": 1,
+          "elem_bits": 1,
+          "type": 2,
+          "named_by": "hash"
+        },
+        {
+          "name": "classwarningdisplayed",
+          "index": 9,
+          "offset": 5529,
+          "bits": 1,
+          "count": 1,
+          "elem_bits": 1,
+          "type": 2,
+          "named_by": "hash"
+        },
+        {
+          "name": "iamacheater",
+          "index": 10,
+          "offset": 5530,
+          "bits": 1,
+          "count": 1,
+          "elem_bits": 1,
+          "type": 2,
+          "named_by": "hash"
+        },
+        {
+          "name": "loadoutversion",
+          "index": 11,
+          "offset": 5531,
+          "bits": 8,
+          "count": 1,
+          "elem_bits": 8,
+          "type": 0,
+          "named_by": "hash"
+        }
+      ]
+    },
+    {
+      "index": 19,
+      "name_hash": "A0642F05",
+      "bits": 2796,
+      "members": [
+        {
+          "name": "customclass",
+          "index": 0,
+          "offset": 0,
+          "bits": 2100,
+          "count": 5,
+          "elem_bits": 420,
+          "type": 8,
+          "struct": 17,
+          "named_by": "hash"
+        },
+        {
+          "name": "customclassname",
+          "index": 1,
+          "offset": 2100,
+          "bits": 640,
+          "count": 5,
+          "elem_bits": 128,
+          "type": 7,
+          "named_by": "hash"
+        },
+        {
+          "name": null,
+          "index": 2,
+          "offset": 2740,
+          "bits": 8,
+          "count": 1,
+          "elem_bits": 8,
+          "type": 0
+        },
+        {
+          "name": null,
+          "index": 3,
+          "offset": 2748,
+          "bits": 8,
+          "count": 1,
+          "elem_bits": 8,
+          "type": 0
+        },
+        {
+          "name": null,
+          "index": 4,
+          "offset": 2756,
+          "bits": 8,
+          "count": 1,
+          "elem_bits": 8,
+          "type": 0
+        },
+        {
+          "name": "killstreak4",
+          "index": 5,
+          "offset": 2764,
+          "bits": 8,
+          "count": 1,
+          "elem_bits": 8,
+          "type": 0,
+          "named_by": "hash"
+        },
+        {
+          "name": "killstreak5",
+          "index": 6,
+          "offset": 2772,
+          "bits": 8,
+          "count": 1,
+          "elem_bits": 8,
+          "type": 0,
+          "named_by": "hash"
+        },
+        {
+          "name": "killstreak6",
+          "index": 7,
+          "offset": 2780,
+          "bits": 8,
+          "count": 1,
+          "elem_bits": 8,
+          "type": 0,
+          "named_by": "hash"
+        },
+        {
+          "name": "loadoutversion",
+          "index": 8,
+          "offset": 2788,
+          "bits": 8,
+          "count": 1,
+          "elem_bits": 8,
+          "type": 0,
+          "named_by": "hash"
+        }
+      ]
+    },
+    {
+      "index": 20,
+      "name_hash": "FFFFFFFF",
+      "bits": 104,
+      "members": [
+        {
+          "name": "xuid",
+          "index": 0,
+          "offset": 0,
+          "bits": 64,
+          "count": 1,
+          "elem_bits": 64,
+          "type": 4
+        },
+        {
+          "name": "playedcount",
+          "index": 1,
+          "offset": 64,
+          "bits": 8,
+          "count": 1,
+          "elem_bits": 8,
+          "type": 0
+        },
+        {
+          "name": "lastplayedtime",
+          "index": 2,
+          "offset": 72,
+          "bits": 32,
+          "count": 1,
+          "elem_bits": 32,
+          "type": 3
+        }
+      ]
+    },
+    {
+      "index": 21,
+      "name_hash": "FFFFFFFF",
+      "bits": 3,
+      "members": [
+        {
+          "name": "purchased",
+          "index": 0,
+          "offset": 0,
+          "bits": 1,
+          "count": 1,
+          "elem_bits": 1,
+          "type": 2,
+          "named_by": "hash"
+        },
+        {
+          "name": "markedold",
+          "index": 1,
+          "offset": 1,
+          "bits": 1,
+          "count": 1,
+          "elem_bits": 1,
+          "type": 2,
+          "named_by": "hash"
+        },
+        {
+          "name": "unlocked",
+          "index": 2,
+          "offset": 2,
+          "bits": 1,
+          "count": 1,
+          "elem_bits": 1,
+          "type": 2
+        }
+      ]
+    },
+    {
+      "index": 22,
+      "name_hash": "FFFFFFFF",
+      "bits": 1,
+      "members": [
+        {
+          "name": "markedold",
+          "index": 0,
+          "offset": 0,
+          "bits": 1,
+          "count": 1,
+          "elem_bits": 1,
+          "type": 2,
+          "named_by": "hash"
+        }
+      ]
+    },
+    {
+      "index": 23,
+      "name_hash": "FFFFFFFF",
+      "bits": 5008,
+      "members": [
+        {
+          "name": "layerspurchased",
+          "index": 0,
+          "offset": 0,
+          "bits": 4,
+          "count": 1,
+          "elem_bits": 4,
+          "type": 2
+        },
+        {
+          "name": "layers",
+          "index": 1,
+          "offset": 4,
+          "bits": 12,
+          "count": 12,
+          "elem_bits": 1,
+          "type": 8,
+          "struct": 22
+        },
+        {
+          "name": "icons",
+          "index": 2,
+          "offset": 16,
+          "bits": 3072,
+          "count": 1024,
+          "elem_bits": 3,
+          "type": 8,
+          "struct": 21
+        },
+        {
+          "name": "backgrounds",
+          "index": 3,
+          "offset": 3088,
+          "bits": 1920,
+          "count": 640,
+          "elem_bits": 3,
+          "type": 8,
+          "struct": 21
+        }
+      ]
+    },
+    {
+      "index": 24,
+      "name_hash": "FFFFFFFF",
+      "bits": 2,
+      "members": [
+        {
+          "name": "purchased",
+          "index": 0,
+          "offset": 0,
+          "bits": 1,
+          "count": 1,
+          "elem_bits": 1,
+          "type": 2,
+          "named_by": "hash"
+        },
+        {
+          "name": "markedold",
+          "index": 1,
+          "offset": 1,
+          "bits": 1,
+          "count": 1,
+          "elem_bits": 1,
+          "type": 2,
+          "named_by": "hash"
+        }
+      ]
+    },
+    {
+      "index": 25,
+      "name_hash": "FFFFFFFF",
+      "bits": 76,
+      "members": [
+        {
+          "name": "features",
+          "index": 0,
+          "offset": 0,
+          "bits": 28,
+          "count": 14,
+          "elem_bits": 2,
+          "type": 8,
+          "struct": 24
+        },
+        {
+          "name": "selectedfeature",
+          "index": 1,
+          "offset": 28,
+          "bits": 8,
+          "count": 1,
+          "elem_bits": 8,
+          "type": 0
+        },
+        {
+          "name": "clanname",
+          "index": 2,
+          "offset": 36,
+          "bits": 40,
+          "count": 1,
+          "elem_bits": 40,
+          "type": 7
+        }
+      ]
+    },
+    {
+      "index": 26,
+      "name_hash": "FFFFFFFF",
+      "bits": 32,
+      "members": [
+        {
+          "name": "a",
+          "index": 0,
+          "offset": 0,
+          "bits": 8,
+          "count": 1,
+          "elem_bits": 8,
+          "type": 0
+        },
+        {
+          "name": "b",
+          "index": 1,
+          "offset": 8,
+          "bits": 8,
+          "count": 1,
+          "elem_bits": 8,
+          "type": 0
+        },
+        {
+          "name": "c",
+          "index": 2,
+          "offset": 16,
+          "bits": 8,
+          "count": 1,
+          "elem_bits": 8,
+          "type": 0
+        },
+        {
+          "name": "d",
+          "index": 3,
+          "offset": 24,
+          "bits": 8,
+          "count": 1,
+          "elem_bits": 8,
+          "type": 0
+        }
+      ]
+    },
+    {
+      "index": 27,
+      "name_hash": "FFFFFFFF",
+      "bits": 320,
+      "members": [
+        {
+          "name": "consoleidhigh",
+          "index": 0,
+          "offset": 0,
+          "bits": 64,
+          "count": 1,
+          "elem_bits": 64,
+          "type": 4
+        },
+        {
+          "name": "consoleidlow",
+          "index": 1,
+          "offset": 64,
+          "bits": 64,
+          "count": 1,
+          "elem_bits": 64,
+          "type": 4
+        },
+        {
+          "name": "macaddress",
+          "index": 2,
+          "offset": 128,
+          "bits": 64,
+          "count": 1,
+          "elem_bits": 64,
+          "type": 4
+        },
+        {
+          "name": "usecount",
+          "index": 3,
+          "offset": 192,
+          "bits": 32,
+          "count": 1,
+          "elem_bits": 32,
+          "type": 2
+        },
+        {
+          "name": "timestamp",
+          "index": 4,
+          "offset": 224,
+          "bits": 32,
+          "count": 1,
+          "elem_bits": 32,
+          "type": 2
+        },
+        {
+          "name": "ipexternal",
+          "index": 5,
+          "offset": 256,
+          "bits": 32,
+          "count": 1,
+          "elem_bits": 32,
+          "type": 8,
+          "struct": 26
+        },
+        {
+          "name": "nattype",
+          "index": 6,
+          "offset": 288,
+          "bits": 32,
+          "count": 1,
+          "elem_bits": 32,
+          "type": 2
+        }
+      ]
+    },
+    {
+      "index": 28,
+      "name_hash": "FFFFFFFF",
+      "bits": 184,
+      "members": [
+        {
+          "name": "leagueid",
+          "index": 0,
+          "offset": 0,
+          "bits": 8,
+          "count": 1,
+          "elem_bits": 8,
+          "type": 0
+        },
+        {
+          "name": "divisionid",
+          "index": 1,
+          "offset": 8,
+          "bits": 8,
+          "count": 1,
+          "elem_bits": 8,
+          "type": 0
+        },
+        {
+          "name": "seasonid",
+          "index": 2,
+          "offset": 16,
+          "bits": 8,
+          "count": 1,
+          "elem_bits": 8,
+          "type": 0
+        },
+        {
+          "name": "teamid",
+          "index": 3,
+          "offset": 24,
+          "bits": 64,
+          "count": 1,
+          "elem_bits": 64,
+          "type": 4
+        },
+        {
+          "name": "subdivisionid",
+          "index": 4,
+          "offset": 88,
+          "bits": 64,
+          "count": 1,
+          "elem_bits": 64,
+          "type": 4
+        },
+        {
+          "name": "rank",
+          "index": 5,
+          "offset": 152,
+          "bits": 32,
+          "count": 1,
+          "elem_bits": 32,
+          "type": 2
+        }
+      ]
+    },
+    {
+      "index": 29,
+      "name_hash": "FFFFFFFF",
+      "bits": 13,
+      "members": [
+        {
+          "name": "tokenspent",
+          "index": 0,
+          "offset": 0,
+          "bits": 1,
+          "count": 1,
+          "elem_bits": 1,
+          "type": 2
+        },
+        {
+          "name": "tokentype",
+          "index": 1,
+          "offset": 1,
+          "bits": 4,
+          "count": 4,
+          "elem_bits": 1,
+          "type": 2
+        },
+        {
+          "name": "itemunlocked",
+          "index": 2,
+          "offset": 5,
+          "bits": 8,
+          "count": 1,
+          "elem_bits": 8,
+          "type": 0
+        }
+      ]
+    },
+    {
+      "index": 30,
+      "name_hash": "FFFFFFFF",
+      "bits": 96,
+      "members": [
+        {
+          "name": "deviceflags",
+          "index": 0,
+          "offset": 0,
+          "bits": 8,
+          "count": 1,
+          "elem_bits": 8,
+          "type": 2
+        },
+        {
+          "name": "devicevideostandardaspect",
+          "index": 1,
+          "offset": 8,
+          "bits": 8,
+          "count": 1,
+          "elem_bits": 8,
+          "type": 2
+        },
+        {
+          "name": "deviceconversion",
+          "index": 2,
+          "offset": 16,
+          "bits": 8,
+          "count": 1,
+          "elem_bits": 8,
+          "type": 2
+        },
+        {
+          "name": "device3d",
+          "index": 3,
+          "offset": 24,
+          "bits": 8,
+          "count": 1,
+          "elem_bits": 8,
+          "type": 2
+        },
+        {
+          "name": "devicewidth",
+          "index": 4,
+          "offset": 32,
+          "bits": 16,
+          "count": 1,
+          "elem_bits": 16,
+          "type": 2
+        },
+        {
+          "name": "deviceheight",
+          "index": 5,
+          "offset": 48,
+          "bits": 16,
+          "count": 1,
+          "elem_bits": 16,
+          "type": 2
+        },
+        {
+          "name": "devicerefreshhz",
+          "index": 6,
+          "offset": 64,
+          "bits": 32,
+          "count": 1,
+          "elem_bits": 32,
+          "type": 5
+        }
+      ]
+    },
+    {
+      "index": 31,
+      "name_hash": "FFFFFFFF",
+      "bits": 352,
+      "members": [
+        {
+          "name": "xred",
+          "index": 0,
+          "offset": 0,
+          "bits": 32,
+          "count": 1,
+          "elem_bits": 32,
+          "type": 5
+        },
+        {
+          "name": "yred",
+          "index": 1,
+          "offset": 32,
+          "bits": 32,
+          "count": 1,
+          "elem_bits": 32,
+          "type": 5
+        },
+        {
+          "name": "xgreen",
+          "index": 2,
+          "offset": 64,
+          "bits": 32,
+          "count": 1,
+          "elem_bits": 32,
+          "type": 5
+        },
+        {
+          "name": "ygreen",
+          "index": 3,
+          "offset": 96,
+          "bits": 32,
+          "count": 1,
+          "elem_bits": 32,
+          "type": 5
+        },
+        {
+          "name": "xblue",
+          "index": 4,
+          "offset": 128,
+          "bits": 32,
+          "count": 1,
+          "elem_bits": 32,
+          "type": 5
+        },
+        {
+          "name": "xwhite",
+          "index": 5,
+          "offset": 160,
+          "bits": 32,
+          "count": 1,
+          "elem_bits": 32,
+          "type": 5
+        },
+        {
+          "name": "ywhite",
+          "index": 6,
+          "offset": 192,
+          "bits": 32,
+          "count": 1,
+          "elem_bits": 32,
+          "type": 5
+        },
+        {
+          "name": "gammared",
+          "index": 7,
+          "offset": 224,
+          "bits": 32,
+          "count": 1,
+          "elem_bits": 32,
+          "type": 5
+        },
+        {
+          "name": "gammagreen",
+          "index": 8,
+          "offset": 256,
+          "bits": 32,
+          "count": 1,
+          "elem_bits": 32,
+          "type": 5
+        },
+        {
+          "name": "gammablue",
+          "index": 9,
+          "offset": 288,
+          "bits": 32,
+          "count": 1,
+          "elem_bits": 32,
+          "type": 5
+        },
+        {
+          "name": "gammatype",
+          "index": 10,
+          "offset": 320,
+          "bits": 32,
+          "count": 1,
+          "elem_bits": 32,
+          "type": 3
+        }
+      ]
+    },
+    {
+      "index": 32,
+      "name_hash": "A0652B6A",
+      "bits": 4384,
+      "members": [
+        {
+          "name": "deviceformatid",
+          "index": 0,
+          "offset": 0,
+          "bits": 32,
+          "count": 1,
+          "elem_bits": 32,
+          "type": 3
+        },
+        {
+          "name": "devicesize",
+          "index": 1,
+          "offset": 32,
+          "bits": 32,
+          "count": 1,
+          "elem_bits": 32,
+          "type": 3
+        },
+        {
+          "name": "hasedid",
+          "index": 2,
+          "offset": 64,
+          "bits": 8,
+          "count": 1,
+          "elem_bits": 8,
+          "type": 2
+        },
+        {
+          "name": "devicesupportcount",
+          "index": 3,
+          "offset": 72,
+          "bits": 8,
+          "count": 1,
+          "elem_bits": 8,
+          "type": 2
+        },
+        {
+          "name": "devicecolorspace",
+          "index": 4,
+          "offset": 80,
+          "bits": 8,
+          "count": 1,
+          "elem_bits": 8,
+          "type": 2
+        },
+        {
+          "name": "deviceconnection",
+          "index": 5,
+          "offset": 88,
+          "bits": 8,
+          "count": 1,
+          "elem_bits": 8,
+          "type": 2
+        },
+        {
+          "name": "outputdisplayvideostandard",
+          "index": 6,
+          "offset": 96,
+          "bits": 8,
+          "count": 1,
+          "elem_bits": 8,
+          "type": 2
+        },
+        {
+          "name": "outputdisplayflags",
+          "index": 7,
+          "offset": 104,
+          "bits": 8,
+          "count": 1,
+          "elem_bits": 8,
+          "type": 2
+        },
+        {
+          "name": "devicelatency",
+          "index": 8,
+          "offset": 112,
+          "bits": 16,
+          "count": 1,
+          "elem_bits": 16,
+          "type": 2
+        },
+        {
+          "name": "outputdisplaywidth",
+          "index": 9,
+          "offset": 128,
+          "bits": 16,
+          "count": 1,
+          "elem_bits": 16,
+          "type": 2
+        },
+        {
+          "name": "outputdisplayheight",
+          "index": 10,
+          "offset": 144,
+          "bits": 16,
+          "count": 1,
+          "elem_bits": 16,
+          "type": 2
+        },
+        {
+          "name": "outputdisplayaspectratio",
+          "index": 11,
+          "offset": 160,
+          "bits": 32,
+          "count": 1,
+          "elem_bits": 32,
+          "type": 5
+        },
+        {
+          "name": "outputdisplayhz",
+          "index": 12,
+          "offset": 192,
+          "bits": 32,
+          "count": 1,
+          "elem_bits": 32,
+          "type": 5
+        },
+        {
+          "name": "renderdisplaywidth",
+          "index": 13,
+          "offset": 224,
+          "bits": 16,
+          "count": 1,
+          "elem_bits": 16,
+          "type": 2
+        },
+        {
+          "name": "renderdisplayheight",
+          "index": 14,
+          "offset": 240,
+          "bits": 16,
+          "count": 1,
+          "elem_bits": 16,
+          "type": 2
+        },
+        {
+          "name": "devicesupport",
+          "index": 15,
+          "offset": 256,
+          "bits": 3072,
+          "count": 32,
+          "elem_bits": 96,
+          "type": 8,
+          "struct": 30
+        },
+        {
+          "name": "edidgamut",
+          "index": 16,
+          "offset": 3328,
+          "bits": 352,
+          "count": 1,
+          "elem_bits": 352,
+          "type": 8,
+          "struct": 31
+        },
+        {
+          "name": "referencegamut",
+          "index": 17,
+          "offset": 3680,
+          "bits": 352,
+          "count": 1,
+          "elem_bits": 352,
+          "type": 8,
+          "struct": 31
+        },
+        {
+          "name": "outputgamut",
+          "index": 18,
+          "offset": 4032,
+          "bits": 352,
+          "count": 1,
+          "elem_bits": 352,
+          "type": 8,
+          "struct": 31
+        }
+      ]
+    },
+    {
+      "index": 33,
+      "name_hash": "FFFFFFFF",
+      "bits": 2400,
+      "members": [
+        {
+          "name": "deviceid",
+          "index": 0,
+          "offset": 0,
+          "bits": 2048,
+          "count": 1,
+          "elem_bits": 2048,
+          "type": 7
+        },
+        {
+          "name": "devicekey",
+          "index": 1,
+          "offset": 2048,
+          "bits": 320,
+          "count": 1,
+          "elem_bits": 320,
+          "type": 7
+        },
+        {
+          "name": "maxviewers",
+          "index": 2,
+          "offset": 2368,
+          "bits": 32,
+          "count": 1,
+          "elem_bits": 32,
+          "type": 2
+        }
+      ]
+    },
+    {
+      "index": 34,
+      "name_hash": "FFFFFFFF",
+      "bits": 1027,
+      "members": [
+        {
+          "name": "elitestats",
+          "index": 0,
+          "offset": 0,
+          "bits": 1024,
+          "count": 32,
+          "elem_bits": 32,
+          "type": 2,
+          "named_by": "hash"
+        },
+        {
+          "name": "isfounder",
+          "index": 1,
+          "offset": 1024,
+          "bits": 1,
+          "count": 1,
+          "elem_bits": 1,
+          "type": 2
+        },
+        {
+          "name": "ismember",
+          "index": 2,
+          "offset": 1025,
+          "bits": 1,
+          "count": 1,
+          "elem_bits": 1,
+          "type": 2
+        },
+        {
+          "name": "ispayingcustomer",
+          "index": 3,
+          "offset": 1026,
+          "bits": 1,
+          "count": 1,
+          "elem_bits": 1,
+          "type": 2
+        }
+      ]
+    },
+    {
+      "index": 35,
+      "name_hash": "FFFFFFFF",
+      "bits": 160,
+      "members": [
+        {
+          "name": "mappacks",
+          "index": 0,
+          "offset": 0,
+          "bits": 32,
+          "count": 1,
+          "elem_bits": 32,
+          "type": 2
+        },
+        {
+          "name": "mtx",
+          "index": 1,
+          "offset": 32,
+          "bits": 128,
+          "count": 128,
+          "elem_bits": 1,
+          "type": 2
+        }
+      ]
+    }
+  ],
+  "zone": "patch_mp"
+}

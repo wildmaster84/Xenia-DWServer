@@ -142,16 +142,26 @@ export class StatsCacheService implements OnModuleDestroy {
   }
 
   /**
-   * Flush all dirty entries to MongoDB.
+   * Convert raw compressed binary to JSON format for MongoDB storage.
+   * Format: { ...parsedStats, _buffer: "<base64 of decompressed data>" }
+   */
+  private rawToJson(raw: Buffer, parsed: Record<string, number>): Buffer {
+    const decompressed = zlib.inflateRawSync(raw);
+    const json = JSON.stringify({ ...parsed, _buffer: decompressed.toString('base64') });
+    return Buffer.from(json, 'utf-8');
+  }
+
+  /**
+   * Flush all dirty entries to MongoDB as JSON.
    * Called by the background timer every 5 minutes, and on shutdown.
    */
   async flushDirty(): Promise<void> {
-    const dirtyEntries: Array<{ xuidHex: string; fileName: string; raw: Buffer }> = [];
+    const dirtyEntries: Array<{ xuidHex: string; fileName: string; raw: Buffer; parsed: Record<string, number> }> = [];
 
     for (const [k, entry] of this.cache) {
       if (entry.dirty) {
         const { xuidHex, fileName } = this.parseKey(k);
-        dirtyEntries.push({ xuidHex, fileName, raw: entry.raw });
+        dirtyEntries.push({ xuidHex, fileName, raw: entry.raw, parsed: entry.parsed });
         entry.dirty = false; // mark as clean immediately
       }
     }
@@ -160,10 +170,10 @@ export class StatsCacheService implements OnModuleDestroy {
 
     this.logger.log(`Flushing ${dirtyEntries.length} dirty entries to MongoDB...`);
 
-    // Write all dirty entries in parallel
+    // Write all dirty entries in parallel as JSON
     await Promise.all(
-      dirtyEntries.map(({ xuidHex, fileName, raw }) =>
-        this.userFileRepo.write(xuidHex, fileName, raw).catch((err) => {
+      dirtyEntries.map(({ xuidHex, fileName, raw, parsed }) =>
+        this.userFileRepo.write(xuidHex, fileName, this.rawToJson(raw, parsed)).catch((err) => {
           this.logger.error(`Flush failed for ${xuidHex}:${fileName}: ${err}`);
           // Re-mark as dirty so it retries next cycle
           const entry = this.cache.get(this.key(xuidHex, fileName));
@@ -177,16 +187,16 @@ export class StatsCacheService implements OnModuleDestroy {
 
   /**
    * Invalidate all entries for a xuid (on disconnect).
-   * Flushes dirty data before removing.
+   * Flushes dirty data as JSON before removing.
    */
   async invalidateAll(xuidHex: string): Promise<void> {
     const prefix = `${xuidHex}:`;
-    const toFlush: Array<{ fileName: string; raw: Buffer }> = [];
+    const toFlush: Array<{ fileName: string; raw: Buffer; parsed: Record<string, number> }> = [];
 
     for (const [k, entry] of this.cache) {
       if (k.startsWith(prefix) && entry.dirty) {
         const { fileName } = this.parseKey(k);
-        toFlush.push({ fileName, raw: entry.raw });
+        toFlush.push({ fileName, raw: entry.raw, parsed: entry.parsed });
         entry.dirty = false;
       }
     }
@@ -194,8 +204,8 @@ export class StatsCacheService implements OnModuleDestroy {
     // Flush dirty data for this xuid before removing
     if (toFlush.length > 0) {
       await Promise.all(
-        toFlush.map(({ fileName, raw }) =>
-          this.userFileRepo.write(xuidHex, fileName, raw).catch((err) =>
+        toFlush.map(({ fileName, raw, parsed }) =>
+          this.userFileRepo.write(xuidHex, fileName, this.rawToJson(raw, parsed)).catch((err) =>
             this.logger.error(`Flush on disconnect failed for ${xuidHex}:${fileName}: ${err}`),
           ),
         ),
